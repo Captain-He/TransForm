@@ -247,17 +247,69 @@ public class DataConfigTable {
 				//3.4 获取 设备型号表 中  电力仪表 和测温表的 重要数据
 				Map<String,String> map_dev = new HashMap<String,String>();
 				for(int i=0;i<data2.length;i++){
-					String a = data2[i][0][0]+"@";
+					String a = "";
 					for(int j=2;j<data2[i].length;j++){//$用来判断有几行
 						if(data2[i][j][devcan] == null) break;
-						a +=data2[i][j][devcan]+"@"+data2[i][j][devshu]+"@"+data2[i][j][devgong]+"@"+data2[i][j][devjidi]+"@"+data2[i][j][devjishu]+"$";
+						a +=data2[i][j][devcan]+"@"+data2[i][j][devshu]+"@"+data2[i][j][devgong]+"@"+data2[i][j][devjidi]+"@"+data2[i][j][devjishu]+"%";
 					}
-					map_dev.put(i+"", a);
+					map_dev.put(data2[i][0][0], a);
 				}
 				//4 重新组织 	
-				for(Map.Entry<String, String> entry : map_ID_dev.entrySet()){
-					System.out.println("key=" + entry.getKey());
-					System.out.println("value" + entry.getValue());
+//				for(Map.Entry<String, String> entry1 : map_ID_dev.entrySet()){
+////					System.out.println("key=" + entry.getKey());
+////					System.out.println("value" + entry.getValue());
+//				}
+//				for(Map.Entry<String, String> entry2 : map_dev.entrySet()){
+////					System.out.println("key=" + entry2.getKey());
+////					System.out.println("value" + entry2.getValue());
+//				}
+//				for(Map.Entry<String, String> entry3 : map_dian.entrySet()){
+////					System.out.println("key=" + entry3.getKey());
+////					System.out.println("value" + entry3.getValue());
+//				}
+//				for(Map.Entry<String, String> entry4: map_wen.entrySet()){
+////					System.out.println("key=" + entry4.getKey());
+////					System.out.println("value" + entry4.getValue());
+//				}
+//				for(Map.Entry<String, String> entry5: map_tong.entrySet()){
+//					System.out.println("key=" + entry5.getKey());
+//					System.out.println("value" + entry5.getValue());
+//				}
+				for(Map.Entry<String, String> entry1 : map_ID_dev.entrySet()){
+					String id = entry1.getKey();//采集设备唯一ID
+					String value1[] = entry1.getValue().split("@");
+					String xinghao = value1[0];//设备型号
+					String tpname = value1[1];//采集设备类型
+					for(Map.Entry<String, String> entry2 : map_dev.entrySet()){
+						String value2[] =  entry2.getValue().split("%");
+						//System.out.println(xinghao+"----------"+entry2.getKey());
+						if(xinghao.equals(entry2.getKey())){
+							//System.out.println(xinghao+"#############"+entry2.getKey());
+							for(int i=0;i<value2.length;i++){
+								//电力仪表 value2.length标识行数
+								String v2[] = value2[i].split("@");//v2 为五个设备型号 数据
+								if(tpname.equals("测温传感器")){
+									//System.out.println(map_wen);
+									for(Map.Entry<String, String> entry4: map_wen.entrySet()){
+										if(id.equals(entry4.getKey())){
+											
+										}
+									}
+								}else{
+									//System.out.println(map_dian);
+									for(Map.Entry<String, String> entry4: map_wen.entrySet()){
+										if(id.equals(entry4.getKey())){
+											
+										}
+									}
+								}
+							}
+							
+						}
+					}
+					
 				}
+				
+				
 	}
 }
