@@ -57,9 +57,15 @@ public class ReadFile {
 			e.printStackTrace();
 		}
 		/**数据配置表信息**/
-		String textPathDataConfing = "";
+		String textPathDataConfing = "C:/Users/91277/Desktop/textPathDataConfing.txt";
 		DataConfigTable dataconfigtable = new DataConfigTable();
-		dataconfigtable.toDataConfigTableTxt(data,data2);
+		String resDataConfigTable = dataconfigtable.toDataConfigTableTxt(data,data2);
+		try {
+			writefile.WriteToFile(resDataConfigTable, textPathDataConfing);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public static String[][][] readBuildTable(String dir) {
 		Workbook wb = null;

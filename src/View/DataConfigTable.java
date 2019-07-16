@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class DataConfigTable {
 	// data 为施工记录表； data2 为设备型号表 
-	public static void toDataConfigTableTxt(String data[][][],String data2[][][]){
+	public static String toDataConfigTableTxt(String data[][][],String data2[][][]){
 		// 1.sheet 级
 				int shigong = 0;// 查找 施工总图记录表 存于第一维索引存于shigong
 				int dianli = 0;// 查找 电力仪表 存于第一维索引存于dianli
@@ -275,6 +275,7 @@ public class DataConfigTable {
 //					System.out.println("key=" + entry5.getKey());
 //					System.out.println("value" + entry5.getValue());
 //				}
+				StringBuffer t = new StringBuffer();
 				for(Map.Entry<String, String> entry1 : map_ID_dev.entrySet()){
 					String id = entry1.getKey();//采集设备唯一ID
 					String value1[] = entry1.getValue().split("@");
@@ -292,14 +293,54 @@ public class DataConfigTable {
 									//System.out.println(map_wen);
 									for(Map.Entry<String, String> entry4: map_wen.entrySet()){
 										if(id.equals(entry4.getKey())){
-											
+//											System.out.println(entry4.getValue());
+											String v4 [] = entry4.getValue().split("@");//电力仪表重要信息
+											//System.out.println(v4[1]+v4[3]); v4[1]为隶属的通信管理机编号，v4[3]为串口编号
+											for(Map.Entry<String, String> entry5: map_tong.entrySet()){
+												if(v4[1].equals(entry5.getKey())){
+													String v5 [] = entry5.getValue().split("@");//通信管理机重要信息
+													//v5[1] 为PC编号
+													for(int k=1;k<v5.length;k++){
+														String a[] = v5[k].split("/");
+														//System.out.println(v4[1]+"======"+a[0]);
+														if(v4[3].equals(a[0])){
+															//System.out.println(a[1]+a[2]);
+															//a[1]  通信管理机IP 
+															//a[2] 通信管理机端口号
+															String wen = id+","+v2[0]+","+v2[1]+","+v4[0]+","+v4[1]+","+v5[1]+","+v4[2]+","+v4[3]+","+a[1]+","+a[2]+","+v4[4]+","+v4[5]+","+v4[6]+","+v4[7]+","+v4[8]+","+v4[9]+","+v2[2]+","+v2[3]+","+v2[4];
+															t.append(wen);
+															t.append("\r\n");
+														}
+													}
+												}
+											}
 										}
 									}
 								}else{
 									//System.out.println(map_dian);
-									for(Map.Entry<String, String> entry4: map_wen.entrySet()){
+									for(Map.Entry<String, String> entry4: map_dian.entrySet()){
 										if(id.equals(entry4.getKey())){
-											
+//											System.out.println(entry4.getValue());
+											String v4 [] = entry4.getValue().split("@");//电力仪表重要信息
+											//System.out.println(v4[1]+v4[3]); v4[1]为隶属的通信管理机编号，v4[3]为串口编号
+											for(Map.Entry<String, String> entry5: map_tong.entrySet()){
+												if(v4[1].equals(entry5.getKey())){
+													String v5 [] = entry5.getValue().split("@");//通信管理机重要信息
+													//v5[1] 为PC编号
+													for(int k=1;k<v5.length;k++){
+														String a[] = v5[k].split("/");
+														//System.out.println(v4[1]+"======"+a[0]);
+														if(v4[3].equals(a[0])){
+															//System.out.println(a[1]+a[2]);
+															//a[1]  通信管理机IP 
+															//a[2] 通信管理机端口号
+															String dian = id+","+v2[0]+","+v2[1]+","+v4[0]+","+v4[1]+","+v5[1]+","+v4[2]+","+v4[3]+","+a[1]+","+a[2]+","+v4[4]+","+v4[5]+","+v4[6]+","+v4[7]+","+v4[8]+","+v4[9]+","+v2[2]+","+v2[3]+","+v2[4];
+															t.append(dian);
+															t.append("\r\n");
+														}
+													}
+												}
+											}
 										}
 									}
 								}
@@ -310,6 +351,6 @@ public class DataConfigTable {
 					
 				}
 				
-				
+			return t.toString();	
 	}
 }
