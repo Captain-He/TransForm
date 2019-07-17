@@ -66,6 +66,17 @@ public class ReadFile {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		/**传感器与设备对应关系表**/
+		String textpathDevRelation = "C:/Users/91277/Desktop/textDevRelation.txt";
+		DevRelationTable devrelateiontable = new DevRelationTable();
+		String canzhao = structable.backdata();
+		String resDevRelationTable = devrelateiontable.toDevRelationTableTxt(data,canzhao);
+		try {
+			writefile.WriteToFile(resDevRelationTable, textpathDevRelation);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public static String[][][] readBuildTable(String dir) {
 		Workbook wb = null;
