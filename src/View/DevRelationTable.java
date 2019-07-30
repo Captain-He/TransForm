@@ -1,7 +1,7 @@
 package View;
 
 public class DevRelationTable {
-	public static String toDevRelationTableTxt(String[][][]data,String str){
+	public  String toDevRelationTableTxt(String[][][]data,String str){
 		// 1.表头 级
 		int id= 0;// 采集设备唯一ID
 		int type = 0;// 采集设备类型

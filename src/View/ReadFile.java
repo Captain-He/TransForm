@@ -15,11 +15,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 @SuppressWarnings("resource")
 public class ReadFile {
-	public static void main(String[] args) throws IOException {
-		readfile("C:/Users/91277/Desktop/设备型号表-V1.0.xlsx","C:/Users/91277/Desktop/施工记录v0.5-模拟数据.xlsx");
-	}
+//	public static void main(String[] args) throws IOException {
+//		readfile("C:/Users/Admin/Desktop/设备型号表-V1.0.xlsx","C:/Users/Admin/Desktop/施工记录v0.5-模拟数据.xlsx");
+//	}
 
-	public static void readfile(String filePath1,String filePath2) {
+	public void readfile(String filePath1,String filePath2,String savepath) {
 		WriteFile writefile = new WriteFile();
 		//filePath1 为施工记录表  filePath2 为设备型号表
 		//data1 为数据再组织规则表 ； data 为施工记录表； data2 为设备型号表 
@@ -27,7 +27,7 @@ public class ReadFile {
 		String data2[][][] =readDevTable(filePath1);
 		String data[][][] = readBuildTable(filePath2);
 		/**测温表**/
-		String textPath = "C:/Users/91277/Desktop/test.txt";
+		String textPath = savepath+"/test.txt";
 		CeWenTable cewen_table = new CeWenTable();
 		String res = cewen_table.toTempTxt(data1,data,data2);
 		try {
@@ -37,7 +37,7 @@ public class ReadFile {
 			e.printStackTrace();
 		}
 		/**电力仪表**/
-		String textPathDian = "C:/Users/91277/Desktop/testdian.txt";
+		String textPathDian = savepath+"/testdian.txt";
 		DianLiTable dianli_table = new DianLiTable();
 		String resDian = dianli_table.toDianTxt(data1,data,data2);
 		try {
@@ -47,7 +47,7 @@ public class ReadFile {
 			e.printStackTrace();
 		}
 		/**设备组织结构表**/
-		String textPathstructure = "C:/Users/91277/Desktop/testStructure.txt";
+		String textPathstructure = savepath+"/testStructure.txt";
 		StrucTable structable = new StrucTable();
 		String resStructure = structable.toStructureTxt(data);
 		try {
@@ -57,7 +57,7 @@ public class ReadFile {
 			e.printStackTrace();
 		}
 		/**数据配置表信息**/
-		String textPathDataConfing = "C:/Users/91277/Desktop/textPathDataConfing.txt";
+		String textPathDataConfing = savepath+"/textPathDataConfing.txt";
 		DataConfigTable dataconfigtable = new DataConfigTable();
 		String resDataConfigTable = dataconfigtable.toDataConfigTableTxt(data,data2);
 		try {
@@ -67,7 +67,7 @@ public class ReadFile {
 			e.printStackTrace();
 		}
 		/**传感器与设备对应关系表**/
-		String textpathDevRelation = "C:/Users/91277/Desktop/textDevRelation.txt";
+		String textpathDevRelation = savepath+"/textDevRelation.txt";
 		DevRelationTable devrelateiontable = new DevRelationTable();
 		String canzhao = structable.backdata();
 		String resDevRelationTable = devrelateiontable.toDevRelationTableTxt(data,canzhao);
@@ -78,7 +78,7 @@ public class ReadFile {
 			e.printStackTrace();
 		}
 	}
-	public static String[][][] readBuildTable(String dir) {
+	public  String[][][] readBuildTable(String dir) {
 		Workbook wb = null;
 		Sheet sheet = null;
 		Row row = null;

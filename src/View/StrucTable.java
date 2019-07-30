@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class StrucTable {
 	public static StringBuffer t = new StringBuffer();
-	public static String toStructureTxt(String data[][][]){
+	public  String toStructureTxt(String data[][][]){
 		//1.读取重要数据
 		String result [] = new String[data[0].length];
 		for(int i=7;i<data[0].length;i++){
@@ -114,7 +114,7 @@ public class StrucTable {
 //		return t.toString();
 		return y.toString();
  	}
-	public static String backdata(){
+	public  String backdata(){
 		return t.toString();
 	}
 }

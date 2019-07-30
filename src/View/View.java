@@ -19,9 +19,10 @@ public class View {
 
 	public static  String path1 = "a";
 	public static String path2 = "a";
+    public static String savepath = "a";
 	public static void main(String[] args) throws IOException {
 		
-		 final JFrame jf = new JFrame("测试窗口");
+		 final JFrame jf = new JFrame("表格转化");
 	        jf.setSize(350, 300);
 	        jf.setLocationRelativeTo(null);
 	        jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -50,21 +51,36 @@ public class View {
 	            }
 	        });
 	        panel.add(openBtnb);
+	        
+	        JButton openBtnc = new JButton("选择存储路径");
+	        openBtnc.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	            	JFileChooser chooser = new JFileChooser();
+	            	chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	            	chooser.showOpenDialog(null);
+	            	savepath = chooser.getSelectedFile().getPath();
+	            	msgTextArea.append("打开文件: " + savepath + "\n\n");
+	            }
+	        });
+	        panel.add(openBtnc);
 
 	        JButton saveBtn = new JButton("转化");
 	        saveBtn.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
 	            	ReadFile readfile = new ReadFile();
-	            	if(path1.equals("a")||path2.equals("a"))
+	            	if(path1.equals("a")||path2.equals("a")){
 	            		JOptionPane.showMessageDialog(null, "请输入完整的文档", "标题【注意】", JOptionPane.ERROR_MESSAGE);
-	            	else
-	            	readfile.readfile(path1,path2);
-	               
+	            		if(savepath.equals("a")){
+	            			JOptionPane.showMessageDialog(null, "请选择文件保存路径", "标题【注意】", JOptionPane.ERROR_MESSAGE);
+	            		}
+	            	}else{
+	            		readfile.readfile(path1,path2,savepath);
+	            	}
 	            }
 	        });
 	        panel.add(saveBtn);
-
 	        jf.setContentPane(panel);
 	        jf.setVisible(true);	
 		

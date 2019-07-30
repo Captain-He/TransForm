@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class DataConfigTable {
 	// data 为施工记录表； data2 为设备型号表 
-	public static String toDataConfigTableTxt(String data[][][],String data2[][][]){
+	public  String toDataConfigTableTxt(String data[][][],String data2[][][]){
 		// 1.sheet 级
 				int shigong = 0;// 查找 施工总图记录表 存于第一维索引存于shigong
 				int dianli = 0;// 查找 电力仪表 存于第一维索引存于dianli
@@ -43,61 +43,61 @@ public class DataConfigTable {
 							type= j;
 						}
 				}
-				  //2.2测温集中器现场施工配置记录 表头
-				int wenid = 0;
-				int wendev = 0;
-				int wenjie = 0; //
-				int wenli = 0; //
-				int wentong = 0;
-				int wenchuan = 0;
-				int wenbo = 0;
-				int wenshu = 0;
-				int wenjiao = 0;
-				int wenting = 0;
-				int wenliu = 0;
-				int wencong = 0;
-				for(int j = 0;j < 30;j++){
-					if (data[wenji][1][j] == null) break;
-						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("设备唯一ID（后期软件使用）")) {
-							wenid = j;
-						}
-						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("设备型号")) {
-							wendev = j;
-						}
-						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("接入方式")) {
-							wenjie = j;
-						}
-						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("隶属的通信管理机编号")) {
-							wenli = j;
-						}
-						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("通信协议(modbusTCP/modbusRTU)")) {
-							wentong = j;
-						}
-						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("串口编号")) {
-							wenchuan = j;
-						}
-						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("波特率")) {
-							wenbo = j;
-						}
-						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("数据位")) {
-							wenshu = j;
-						}
-						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("校验位")) {
-							wenjiao = j;
-						}
-						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("停止位")) {
-							wenting = j;
-						}
-						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("流控")) {
-							wenliu = j;
-						}
-						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("从站地址")) {
-							wencong = j;
-						}
-				}
+//				  //2.2测温集中器现场施工配置记录 表头
+//				int wenid = 0;
+//				int wendev = 0;
+//				int wenjie = 0; //
+//				int wenli = 0; //
+//				int wentong = 0;
+//				int wenchuan = 0;
+//				int wenbo = 0;
+//				int wenshu = 0;
+//				int wenjiao = 0;
+//				int wenting = 0;
+//				int wenliu = 0;
+//				int wencong = 0;
+//				for(int j = 0;j < 30;j++){
+//					if (data[wenji][1][j] == null) break;
+//						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("设备唯一ID（后期软件使用）")) {
+//							wenid = j;
+//						}
+//						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("设备型号")) {
+//							wendev = j;
+//						}
+//						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("接入方式")) {
+//							wenjie = j;
+//						}
+//						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("隶属的通信管理机编号")) {
+//							wenli = j;
+//						}
+//						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("通信协议(modbusTCP/modbusRTU)")) {
+//							wentong = j;
+//						}
+//						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("串口编号")) {
+//							wenchuan = j;
+//						}
+//						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("波特率")) {
+//							wenbo = j;
+//						}
+//						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("数据位")) {
+//							wenshu = j;
+//						}
+//						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("校验位")) {
+//							wenjiao = j;
+//						}
+//						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("停止位")) {
+//							wenting = j;
+//						}
+//						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("流控")) {
+//							wenliu = j;
+//						}
+//						if (data[wenji][1][j].replaceAll("\n", "").replaceAll(" ", "").equals("从站地址")) {
+//							wencong = j;
+//						}
+//				}
 				//2.3 电力仪表 表头
 				int dianid = 0;
-				int diandev = 0;
+//				int diandev = 0;
 				int dianjie = 0; //
 				int dianl = 0; //
 				int diantong = 0;
@@ -113,9 +113,9 @@ public class DataConfigTable {
 						if (data[dianli][3][j].replaceAll("\n", "").replaceAll(" ", "").equals("采集设备唯一ID")) {
 							dianid = j;
 						}
-						if (data[dianli][3][j].replaceAll("\n", "").replaceAll(" ", "").equals("设备型号")) {
-							diandev = j;
-						}
+//						if (data[dianli][3][j].replaceAll("\n", "").replaceAll(" ", "").equals("设备型号")) {
+//							diandev = j;
+//						}
 						if (data[dianli][3][j].replaceAll("\n", "").replaceAll(" ", "").equals("接入方式(以太网/串口)")) {
 							dianjie = j;
 						}
@@ -172,31 +172,31 @@ public class DataConfigTable {
 							devjishu = j;
 						}
 				}
-				//2.5 设备型号表 中温度表  表头 用第三个表 倒数第一个表为例子
-				int wendevcan = 0;
-				int wendevshu= 0;
-				int wendevgong = 0; //
-				int wendevjidi = 0; //
-				int wendevjishu = 0;
-				for(int j = 0;j < 30;j++){
-					if (data2[data2.length-1][1][j] == null) 
-						break;
-						if (data2[data2.length-1][1][j].equals("参数分段序号")) {
-							wendevcan = j;
-						}
-						if (data2[data2.length-1][1][j].equals("读取全部数据需要几次")) {
-							wendevshu = j;
-						}
-						if (data2[data2.length-1][1][j].equals("功能码")) {
-							wendevgong = j;
-						}
-						if (data2[data2.length-1][1][j].equals("寄存器起始地址")) {
-							wendevjidi = j;
-						}
-						if (data2[data2.length-1][1][j].equals("寄存器数量")) {
-							wendevjishu = j;
-						}
-				}
+//				//2.5 设备型号表 中温度表  表头 用第三个表 倒数第一个表为例子
+//				int wendevcan = 0;
+//				int wendevshu= 0;
+//				int wendevgong = 0; //
+//				int wendevjidi = 0; //
+//				int wendevjishu = 0;
+//				for(int j = 0;j < 30;j++){
+//					if (data2[data2.length-1][1][j] == null) 
+//						break;
+//						if (data2[data2.length-1][1][j].equals("参数分段序号")) {
+//							wendevcan = j;
+//						}
+//						if (data2[data2.length-1][1][j].equals("读取全部数据需要几次")) {
+//							wendevshu = j;
+//						}
+//						if (data2[data2.length-1][1][j].equals("功能码")) {
+//							wendevgong = j;
+//						}
+//						if (data2[data2.length-1][1][j].equals("寄存器起始地址")) {
+//							wendevjidi = j;
+//						}
+//						if (data2[data2.length-1][1][j].equals("寄存器数量")) {
+//							wendevjishu = j;
+//						}
+//				}
 				//2.6 获取 通信管理机 表头
 				int tongid = 0;
 				int pcid = 0;
