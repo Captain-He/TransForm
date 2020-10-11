@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/src/clientApp/MainMethods.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/clientApp/StartView.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/construction/record/equipments/CommunicationManager.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/construction/record/equipments/TemperConcentrator.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/construction/record/functional/CollectPcTable.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/construction/record/functional/CommunicationManagerTable.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/construction/record/functional/GeneralMapTable.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/construction/record/functional/PowerMeterTable.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/construction/record/functional/TemperComparativeTable.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/construction/record/functional/TemperConcentratorTable.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/convertToTxt/ConcentratorList.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/convertToTxt/DevLink.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/convertToTxt/DpuList.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/convertToTxt/SensorDevList.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/convertToTxt/Sql.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/device/model/DataCell.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/device/model/DeviceModel.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/readBuildTables/ReadBuildTables.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/readDevTables/ReadDevTables.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/readReferTable/ReadReferTable.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/readTables/ReadTables.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/writeFile/WriteFile.java" charset="GBK" />
+  </component>
+</project>

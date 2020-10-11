@@ -10,7 +10,7 @@ import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class readTables {
+public class ReadTables {
 	// ∂¡»°excel
 	public  Workbook readExcel(String filePath) {
 		Workbook wb = null;

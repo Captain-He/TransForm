@@ -3,45 +3,40 @@ package readBuildTables;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import readTables.readTables;
+import readTables.ReadTables;
 
-public class readBuildTables {
+public class ReadBuildTables {
 
-	static final int max_X = 1000;//Êı×éÖĞÃ¿ÕÅ±íĞĞÊıµÄ×î´óÖµ
-	static final int max_Y = 100;//Êı×éÖĞÃ¿ÕÅ±íÁĞÊıµÄ×î´óÖµ
-	
-	static int shigong = 0;// ²éÕÒ Ê©¹¤×ÜÍ¼¼ÇÂ¼±í ´æÓÚµÚÒ»Î¬Ë÷Òı´æÓÚshigong
-	static int wenzhao = 0;// ²éÕÒ ²âÎÂ´«¸ĞÆ÷ºÍ²âÎÂ¼¯ÖĞÆ÷¶ÔÕÕ±í ´æÓÚµÚÒ»Î¬Ë÷Òı´æÓÚwenzhao
-	static int wenpei = 0;// ²éÕÒ ²âÎÂ¼¯ÖĞÆ÷ÏÖ³¡Ê©¹¤ÅäÖÃ¼ÇÂ¼ ´æÓÚµÚÒ»Î¬Ë÷Òı´æÓÚwenpei
-	static int dianli = 0;// ²éÕÒ µçÁ¦ÒÇ±í ´æÓÚµÚÒ»Î¬Ë÷Òı´æÓÚdianli
-	static int caiji = 0;// ²éÕÒ ²É¼¯PCÏÖ³¡Ê©¹¤ÅäÖÃ¼ÇÂ¼ ´æÓÚµÚÒ»Î¬Ë÷Òı´æÓÚwenpei
-	static int tongguan = 0;  //²éÕÒ Í¨ĞÅ¹ÜÀí»ú±í ´æÓÚµÚÒ»Î¬Ë÷Òı´æÓÚtongguan
-	
-    public static String[][][] BuildTable; //Õû¸öÊ©¹¤¼ÇÂ¼ÎÄ¼ş
-	//´íÎóĞÅÏ¢´æ´¢
-	public static String report="errors:\r\n"; //´íÎóĞÅÏ¢´æ´¢
-//	public static void main(String[] args) {
-//		// TODO Auto-generated method stub
-//		readBuildTables("C:/Users/Admin/Desktop/Ê©¹¤¼ÇÂ¼v0.5-Ä£Äâ.xlsx");
-//		table6();
-//		System.out.println(report);
-//	}
-	// ¶ÁÈ¡Ê©¹¤¼ÇÂ¼±í£¬·µ»ØÊı×é
+	static final int max_X = 1000;//æ•°ç»„ä¸­æ¯å¼ è¡¨è¡Œæ•°çš„æœ€å¤§å€¼
+	static final int max_Y = 100;//æ•°ç»„ä¸­æ¯å¼ è¡¨åˆ—æ•°çš„æœ€å¤§å€¼
+
+	static int shigong = 0;// æŸ¥æ‰¾ æ–½å·¥æ€»å›¾è®°å½•è¡¨ å­˜äºç¬¬ä¸€ç»´ç´¢å¼•å­˜äºshigong
+	static int wenzhao = 0;// æŸ¥æ‰¾ æµ‹æ¸©ä¼ æ„Ÿå™¨å’Œæµ‹æ¸©é›†ä¸­å™¨å¯¹ç…§è¡¨ å­˜äºç¬¬ä¸€ç»´ç´¢å¼•å­˜äºwenzhao
+	static int wenpei = 0;// æŸ¥æ‰¾ æµ‹æ¸©é›†ä¸­å™¨ç°åœºæ–½å·¥é…ç½®è®°å½• å­˜äºç¬¬ä¸€ç»´ç´¢å¼•å­˜äºwenpei
+	static int dianli = 0;// æŸ¥æ‰¾ ç”µåŠ›ä»ªè¡¨ å­˜äºç¬¬ä¸€ç»´ç´¢å¼•å­˜äºdianli
+	static int caiji = 0;// æŸ¥æ‰¾ é‡‡é›†PCç°åœºæ–½å·¥é…ç½®è®°å½• å­˜äºç¬¬ä¸€ç»´ç´¢å¼•å­˜äºwenpei
+	static int tongguan = 0;  //æŸ¥æ‰¾ é€šä¿¡ç®¡ç†æœºè¡¨ å­˜äºç¬¬ä¸€ç»´ç´¢å¼•å­˜äºtongguan
+
+	public static String[][][] BuildTable; //æ•´ä¸ªæ–½å·¥è®°å½•æ–‡ä»¶
+	//é”™è¯¯ä¿¡æ¯å­˜å‚¨
+	public static String report="errors:\r\n"; //é”™è¯¯ä¿¡æ¯å­˜å‚¨
+
+	// è¯»å–æ–½å·¥è®°å½•è¡¨ï¼Œè¿”å›æ•°ç»„
 	public  String [][][] readTables(String dir) {
-		
-		//¶ÁÈ¡ Õû¸öÊ©¹¤¼ÇÂ¼ÎÄ¼ş
-		readTables readbuildtable = new readTables();
+
+		//è¯»å– æ•´ä¸ªæ–½å·¥è®°å½•æ–‡ä»¶
+		ReadTables readbuildtable = new ReadTables();
 		Workbook wb = null;
 		Sheet sheet = null;
 		Row row = null;
 		wb = readbuildtable.readExcel(dir);
-		int sheetNum = wb.getNumberOfSheets(); // sheetÊıÁ¿
+		int sheetNum = wb.getNumberOfSheets(); // sheetæ•°é‡
 		String[][][] array = new String[sheetNum][max_X][max_Y];
 		if (wb != null) {
-			// »ñÈ¡µÚÒ»¸ösheet
+			// è·å–ç¬¬ä¸€ä¸ªsheet
 			for (int i = 0; i < sheetNum; i++) {
 				sheet = wb.getSheetAt(i);
-				int rownum = sheet.getPhysicalNumberOfRows();// »ñÈ¡×î´óĞĞÊı
+				int rownum = sheet.getPhysicalNumberOfRows();// è·å–æœ€å¤§è¡Œæ•°
 				for (int j = 0; j < rownum; j++) {
 					row = sheet.getRow(j);
 					if (row != null) {
@@ -58,118 +53,118 @@ public class readBuildTables {
 			}
 		}
 		BuildTable = array;
-		//µ½´ËÕû¸öÊ©¹¤¼ÇÂ¼ÎÄ¼ş´æÔÚÈıÎ»Êı×é BuildTable;
-		
-		// 1.sheet ¼¶
-		
+		//åˆ°æ­¤æ•´ä¸ªæ–½å·¥è®°å½•æ–‡ä»¶å­˜åœ¨ä¸‰ä½æ•°ç»„ BuildTable;
+
+		// 1.sheet çº§
+
 		for (int i = 0; i < BuildTable.length; i++) {
-			if (BuildTable[i][0][0].equals("Ê©¹¤×ÜÍ¼¼ÇÂ¼±í")) {
+			if (BuildTable[i][0][0].equals("æ–½å·¥æ€»å›¾è®°å½•è¡¨")) {
 				shigong = i;
 			}
-			if (BuildTable[i][0][0].equals("²âÎÂ´«¸ĞÆ÷ºÍ²âÎÂ¼¯ÖĞÆ÷¶ÔÕÕ±í")) {
+			if (BuildTable[i][0][0].equals("æµ‹æ¸©ä¼ æ„Ÿå™¨å’Œæµ‹æ¸©é›†ä¸­å™¨å¯¹ç…§è¡¨")) {
 				wenzhao = i;
 			}
-			if (BuildTable[i][0][0].equals("²âÎÂ¼¯ÖĞÆ÷ÏÖ³¡Ê©¹¤ÅäÖÃ¼ÇÂ¼")) {
+			if (BuildTable[i][0][0].equals("æµ‹æ¸©é›†ä¸­å™¨ç°åœºæ–½å·¥é…ç½®è®°å½•")) {
 				wenpei = i;
 			}
-			if (BuildTable[i][0][0].equals("Í¨ĞÅ¹ÜÀí»úÏÖ³¡Ê©¹¤ÅäÖÃ¼ÇÂ¼±í")) {
+			if (BuildTable[i][0][0].equals("é€šä¿¡ç®¡ç†æœºç°åœºæ–½å·¥é…ç½®è®°å½•è¡¨")) {
 				tongguan= i;
 			}
-			if (BuildTable[i][0][0].equals("µçÁ¦ÒÇ±íÏÖ³¡Ê©¹¤ÅäÖÃ¼ÇÂ¼±í")) {
+			if (BuildTable[i][0][0].equals("ç”µåŠ›ä»ªè¡¨ç°åœºæ–½å·¥é…ç½®è®°å½•è¡¨")) {
 				dianli = i;
 			}
-			if(BuildTable[i][0][0].equals("²É¼¯PCÏÖ³¡Ê©¹¤ÅäÖÃ¼ÇÂ¼")){
+			if(BuildTable[i][0][0].equals("é‡‡é›†PCç°åœºæ–½å·¥é…ç½®è®°å½•")){
 				caiji = i;
 			}
-		}//µ½´Ësheet¼¶½áÊø
-        table1();
-        table2();
-        table3();
-        table4();
-        table5();
-        table6();
-        return array;
+		}//åˆ°æ­¤sheetçº§ç»“æŸ
+	/*	table1();
+		table2();
+		table3();
+		table4();
+		table5();
+		table6();*/
+		return array;
 	}
-	
+
 	public static void table1(){
-		//·µ»ØÊ©¹¤×ÜÍ¼
-		String array[][] = BuildTable[shigong]; 
-		//1.²éÕÒ±íÍ·    
-		int title1 = 0;//ÅäµçÊÒ  ËùÔÚÁĞ
-		int title2 = 0;//¹ñºÅ/¹ñÃû  ËùÔÚÁĞ
-		int title3 = 0;//¹¦ÄÜµ¥Ôª  ËùÔÚÁĞ
-		int title4 = 0;//²É¼¯Éè±¸ÀàĞÍ  ËùÔÚÁĞ
-		int title5 = 0;//Éè±¸ĞÍºÅ  ËùÔÚÁĞ
-		int title6 = 0;//²âÁ¿Î»ÖÃ  ËùÔÚÁĞ
-		int title7 = 0;//²É¼¯Éè±¸Î¨Ò»ID  ËùÔÚÁĞ
-		//±íÍ· ¹Ì¶¨ÔÚµÚÆßĞĞ ËùÒÔ´ÓµÚÆßĞĞ±éÀú
+		//è¿”å›æ–½å·¥æ€»å›¾
+		String array[][] = BuildTable[shigong];
+		//1.æŸ¥æ‰¾è¡¨å¤´
+		int title1 = 0;//é…ç”µå®¤  æ‰€åœ¨åˆ—
+		int title2 = 0;//æŸœå·/æŸœå  æ‰€åœ¨åˆ—
+		int title3 = 0;//åŠŸèƒ½å•å…ƒ  æ‰€åœ¨åˆ—
+		int title4 = 0;//é‡‡é›†è®¾å¤‡ç±»å‹  æ‰€åœ¨åˆ—
+		int title5 = 0;//è®¾å¤‡å‹å·  æ‰€åœ¨åˆ—
+		int title6 = 0;//æµ‹é‡ä½ç½®  æ‰€åœ¨åˆ—
+		int title7 = 0;//é‡‡é›†è®¾å¤‡å”¯ä¸€ID  æ‰€åœ¨åˆ—
+		//è¡¨å¤´ å›ºå®šåœ¨ç¬¬ä¸ƒè¡Œ æ‰€ä»¥ä»ç¬¬ä¸ƒè¡Œéå†
 		for(int j = 0;j <array[6].length;j++){
-			if (array[6][j] == null) 
+			if (array[6][j] == null)
 				break;
-			if (slim(array[6][j],"²É¼¯Éè±¸ÀàĞÍ")) {
+			if (slim(array[6][j],"é‡‡é›†è®¾å¤‡ç±»å‹")) {
 				title4= j;
 			}
-			if (slim(array[6][j],"²É¼¯Éè±¸Î¨Ò»ID")) {
+			if (slim(array[6][j],"é‡‡é›†è®¾å¤‡å”¯ä¸€ID")) {
 				title7= j;
 			}
 		}
-		//2.¼ì²éÊı¾İ·¶Î§ £¨Ê©¹¤×ÜÍ¼ÖĞÖ»ÓĞ²É¼¯Éè±¸Î¨Ò»ID¸øÁË·¶Î§ £©Êı¾İ´ÓµÚ°ËĞĞ¿ªÊ¼ 
+		//2.æ£€æŸ¥æ•°æ®èŒƒå›´ ï¼ˆæ–½å·¥æ€»å›¾ä¸­åªæœ‰é‡‡é›†è®¾å¤‡å”¯ä¸€IDç»™äº†èŒƒå›´ ï¼‰æ•°æ®ä»ç¬¬å…«è¡Œå¼€å§‹
 		for(int i=7;i<array.length;i++){
 			if (array[i][title4] == null) break;
-			if(slim(array[i][title4],"²âÎÂ´«¸ĞÆ÷")){
+			if(slim(array[i][title4],"æµ‹æ¸©ä¼ æ„Ÿå™¨")){
 				if(!((sTurnd(array[i][title7])>=200001)&&(sTurnd(array[i][title7])<=299999))){
-					report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-Ê©¹¤×ÜÍ¼¼ÇÂ¼±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title7+1)+" ÁĞÊı¾İ´íÎó\r\n";
+					report +="æ–½å·¥è®°å½•æ–‡ä»¶-æ–½å·¥æ€»å›¾è®°å½•è¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title7+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
 				}
 			}else{
 				if(!((sTurnd(array[i][title7])>=100001)&&(sTurnd(array[i][title7])<=199999))){
-					report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-Ê©¹¤×ÜÍ¼¼ÇÂ¼±í:µÚ  "+(i+1)+"ĞĞµÚ "+title7+" ÁĞÊı¾İ´íÎó\r\n";
+					report +="æ–½å·¥è®°å½•æ–‡ä»¶-æ–½å·¥æ€»å›¾è®°å½•è¡¨:ç¬¬  "+(i+1)+"è¡Œç¬¬ "+title7+" åˆ—æ•°æ®é”™è¯¯\r\n";
 				}
 			}
 		}
 		//return array;
 	}
 	public static void table2(){
-		//·µ»ØÍ¨ĞÅ¹ÜÀí»ú±í
-		String array[][] = BuildTable[tongguan]; 
-		//1.²éÕÒ±íÍ·    
-		int title1 = 0;//Í¨ĞÅ¹ÜÀí»ú±àºÅ  ËùÔÚÁĞ
-		int title2 = 0;//°²×°Î»ÖÃ  ËùÔÚÁĞ
-		int title3 = 0;//C¶Ë/S¶Ë  ËùÔÚÁĞ
-		int title4 = 0;//PC±àºÅ(ÈçÊÇC¶Ë)  ËùÔÚÁĞ
-		int title5 = 0;//´®ĞĞÍ¨µÀÊıÁ¿ ËùÔÚÁĞ
-		int title6 = 0;//×ÜÏß/IP/¶Ë¿ÚÓ³Éä¹ØÏµ  ËùÔÚÁĞ
-		//±íÍ· ¹Ì¶¨ÔÚµÚ¶şĞĞ ËùÒÔ´ÓµÚ¶şĞĞ±éÀú
+		//è¿”å›é€šä¿¡ç®¡ç†æœºè¡¨
+		String array[][] = BuildTable[tongguan];
+		//1.æŸ¥æ‰¾è¡¨å¤´
+		int title1 = 0;//é€šä¿¡ç®¡ç†æœºç¼–å·  æ‰€åœ¨åˆ—
+		int title2 = 0;//å®‰è£…ä½ç½®  æ‰€åœ¨åˆ—
+		int title3 = 0;//Cç«¯/Sç«¯  æ‰€åœ¨åˆ—
+		int title4 = 0;//PCç¼–å·(å¦‚æ˜¯Cç«¯)  æ‰€åœ¨åˆ—
+		int title5 = 0;//ä¸²è¡Œé€šé“æ•°é‡ æ‰€åœ¨åˆ—
+		int title6 = 0;//æ€»çº¿/IP/ç«¯å£æ˜ å°„å…³ç³»  æ‰€åœ¨åˆ—
+		//è¡¨å¤´ å›ºå®šåœ¨ç¬¬äºŒè¡Œ æ‰€ä»¥ä»ç¬¬äºŒè¡Œéå†
 		for(int j = 2;j <array[2].length;j++){
-			if (array[2][j] == null) 
+			if (array[2][j] == null)
 				break;
-			if (slim(array[2][j],"Í¨ĞÅ¹ÜÀí»ú±àºÅ")) {
+			if (slim(array[2][j],"é€šä¿¡ç®¡ç†æœºç¼–å·")) {
 				title1= j;
 			}
-			if (slim(array[2][j],"°²×°Î»ÖÃ")) {
+			if (slim(array[2][j],"å®‰è£…ä½ç½®")) {
 				title2= j;
 			}
-			if (slim(array[2][j],"C¶Ë/S¶Ë")) {
+			if (slim(array[2][j],"Cç«¯/Sç«¯")) {
 				title3= j;
 			}
-			if (slim(array[2][j],"PC±àºÅ(ÈçÊÇC¶Ë)")) {
+			if (slim(array[2][j],"PCç¼–å·(å¦‚æ˜¯Cç«¯)")) {
 				title4= j;
 			}
-			if (slim(array[2][j],"´®ĞĞÍ¨µÀÊıÁ¿")) {
+			if (slim(array[2][j],"ä¸²è¡Œé€šé“æ•°é‡")) {
 				title5= j;
 			}
-			if (slim(array[2][j],"×ÜÏß/IP/¶Ë¿ÚÓ³Éä¹ØÏµ")) {
+			if (slim(array[2][j],"æ€»çº¿/IP/ç«¯å£æ˜ å°„å…³ç³»")) {
 				title6= j;
 			}
 		}
-		//2.¼ì²éÊı¾İ·¶Î§ £©Êı¾İ´ÓµÚËÄĞĞ¿ªÊ¼ 
+		//2.æ£€æŸ¥æ•°æ®èŒƒå›´ ï¼‰æ•°æ®ä»ç¬¬å››è¡Œå¼€å§‹
 		for(int i=3;i<array.length;i++){
 			if (array[i][title1] == null) break;
 			//System.out.println(array[i][title4] +"--------"+array[i][title7]);
 			if(!((sTurnd(array[i][title1])>=1001)&&(sTurnd(array[i][title1])<=1999))){
-				report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-Í¨ĞÅ¹ÜÀí»ú±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title1+1)+" ÁĞÊı¾İ´íÎó\r\n";
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-é€šä¿¡ç®¡ç†æœºè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title1+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
 			}
 			if(!((sTurnd(array[i][title4])>=001)&&(sTurnd(array[i][title4])<=999))){
-				report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-Í¨ĞÅ¹ÜÀí»ú±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title4+1)+" ÁĞÊı¾İ´íÎó\r\n";
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-é€šä¿¡ç®¡ç†æœºè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title4+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
 			}
 			for(int j=title6;j<array[i].length;j++){
 				if(array[i][j] == null||slim(array[i][j],"-")) break;
@@ -177,287 +172,287 @@ public class readBuildTables {
 				String b[] = a[1].split("\\.");
 				double c = sTurnd(a[0].substring(a[0].length()-1,a[0].length()));
 				if(!((c>=0)&&(c<=16))){
-					report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-Í¨ĞÅ¹ÜÀí»ú±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(j+1)+" ÁĞ´®¿Ú±àºÅÊı¾İ´íÎó\r\n";
+					report +="æ–½å·¥è®°å½•æ–‡ä»¶-é€šä¿¡ç®¡ç†æœºè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(j+1)+" åˆ—ä¸²å£ç¼–å·æ•°æ®é”™è¯¯\r\n";
 				}
 				if(!((sTurnd(b[0])>=0)&&(sTurnd(b[0])<=255))){
-					report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-Í¨ĞÅ¹ÜÀí»ú±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(j+1)+" ÁĞIPÊı¾İ´íÎó\r\n";
+					report +="æ–½å·¥è®°å½•æ–‡ä»¶-é€šä¿¡ç®¡ç†æœºè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(j+1)+" åˆ—IPæ•°æ®é”™è¯¯\r\n";
 				}
 				if(!((sTurnd(b[1])>=0)&&(sTurnd(b[1])<=255))){
-					report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-Í¨ĞÅ¹ÜÀí»ú±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(j+1)+" ÁĞIPÊı¾İ´íÎó\r\n";
+					report +="æ–½å·¥è®°å½•æ–‡ä»¶-é€šä¿¡ç®¡ç†æœºè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(j+1)+" åˆ—IPæ•°æ®é”™è¯¯\r\n";
 				}
 				if(!((sTurnd(b[2])>=0)&&(sTurnd(b[2])<=255))){
-					report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-Í¨ĞÅ¹ÜÀí»ú±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(j+1)+" ÁĞIPÊı¾İ´íÎó\r\n";
+					report +="æ–½å·¥è®°å½•æ–‡ä»¶-é€šä¿¡ç®¡ç†æœºè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(j+1)+" åˆ—IPæ•°æ®é”™è¯¯\r\n";
 				}
 				if(!((sTurnd(b[3])>=0)&&(sTurnd(b[3])<=255))){
-					report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-Í¨ĞÅ¹ÜÀí»ú±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(j+1)+" ÁĞIPÊı¾İ´íÎó\r\n";
+					report +="æ–½å·¥è®°å½•æ–‡ä»¶-é€šä¿¡ç®¡ç†æœºè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(j+1)+" åˆ—IPæ•°æ®é”™è¯¯\r\n";
 				}
 				if(!((sTurnd(a[2])>=0)&&(sTurnd(a[2])<=65535))){
-					report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-Í¨ĞÅ¹ÜÀí»ú±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(j+1)+" ÁĞ¶Ë¿ÚÊı¾İ´íÎó\r\n";
+					report +="æ–½å·¥è®°å½•æ–‡ä»¶-é€šä¿¡ç®¡ç†æœºè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(j+1)+" åˆ—ç«¯å£æ•°æ®é”™è¯¯\r\n";
 				}
 			}
 		}
 		//return array;
 	}
 	public static void table3(){
-		//·µ»ØµçÁ¦ÒÇ±í
-		String array[][] = BuildTable[dianli]; 
-		//1.²éÕÒ±íÍ·    
-				int title1 = 0;//²É¼¯Éè±¸Î¨Ò»ID ËùÔÚÁĞ
-				int title2 = 0;//½ÓÈë·½Ê½(ÒÔÌ«Íø/´®¿Ú)  ËùÔÚÁĞ
-				int title3 = 0;//Í¨ĞÅĞ­Òé  ËùÔÚÁĞ
-				int title4 = 0;//Á¥ÊôµÄÍ¨ĞÅ¹ÜÀí»ú±àºÅ  ËùÔÚÁĞ
-				int title5 = 0;//´®¿Ú±àºÅ ËùÔÚÁĞ
-				int title6 = 0;//²¨ÌØÂÊ  ËùÔÚÁĞ
-				int title7 = 0;//Êı¾İÎ» ËùÔÚÁĞ
-				int title8 = 0;//Ğ£ÑéÎ» ËùÔÚÁĞ
-				int title9 = 0;//Í£Ö¹Î» ËùÔÚÁĞ
-				int title10 = 0;//Á÷¿Ø ËùÔÚÁĞ
-				int title11 = 0;//´ÓÕ¾µØÖ· ËùÔÚÁĞ
-				//±íÍ· ¹Ì¶¨ÔÚµÚÈıĞĞ ËùÒÔ´ÓµÚÈıĞĞ±éÀú
-				for(int j = 0;j <array[3].length;j++){
-					if (array[3][j] == null) 
-						break;
-					if (slim(array[3][j],"²É¼¯Éè±¸Î¨Ò»ID")) {
-						title1= j;
-					}
-					if (slim(array[3][j],"½ÓÈë·½Ê½(ÒÔÌ«Íø/´®¿Ú)")) {
-						title2= j;
-					}
-					if (slim(array[3][j],"Í¨ĞÅĞ­Òé(modbusTCP/modbusRTU)")) {
-						title3= j;
-					}
-					if (slim(array[3][j],"Á¥ÊôµÄÍ¨ĞÅ¹ÜÀí»ú±àºÅ")) {
-						title4= j;
-					}
-					if (slim(array[3][j],"´®¿Ú±àºÅ")) {
-						title5= j;
-					}
-					if (slim(array[3][j],"²¨ÌØÂÊ")) {
-						title6= j;
-					}
-					if (slim(array[3][j],"Êı¾İÎ»")) {
-						title7= j;
-					}
-					if (slim(array[3][j],"Ğ£ÑéÎ»")) {
-						title8= j;
-					}
-					if (slim(array[3][j],"Í£Ö¹Î»")) {
-						title9= j;
-					}
-					if (slim(array[3][j],"Á÷¿Ø")) {
-						title10= j;
-					}
-					if (slim(array[3][j],"´ÓÕ¾µØÖ·")) {
-						title11= j;
-					}
-					
-				}
-				//2.¼ì²éÊı¾İ·¶Î§ Êı¾İ´ÓµÚÎåĞĞ¿ªÊ¼ 
-				for(int i=4;i<array.length;i++){
-					if (array[i][title1] == null) break;
-					if(!DLid(array[i][title1])){
-						report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-µçÁ¦ÒÇ±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title1+1)+" ÁĞÊı¾İ´íÎó\r\n";
-					}
-					if(!Jr(array[i][title2])){
-						report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-µçÁ¦ÒÇ±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title2+1)+" ÁĞÊı555¾İ´íÎó\r\n";
-					}
-					if(!((array[i][title3].equals("modbusTCP"))||(array[i][title3].equals("modbusRTU")))){
-						report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-µçÁ¦ÒÇ±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title3+1)+" ÁĞÊı¾İ´íÎó\r\n";
-					}
-					if(!((sTurnd(array[i][title4])>=1001)&&(sTurnd(array[i][title4])<=1999))){
-						report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-µçÁ¦ÒÇ±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title4+1)+" ÁĞÊı¾İ´íÎó\r\n";
-					}
-					double c = sTurnd(array[i][title5].substring(array[i][title5].length()-1,array[i][title5].length()));
-					if(!((c>=0)&&(c<=16))){
-						report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-µçÁ¦ÒÇ±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title5+1)+" ÁĞ´®¿Ú±àºÅÊı¾İ´íÎó\r\n";
-					}
-					if(!Bt(array[i][title6])){
-						report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-µçÁ¦ÒÇ±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title6+1)+" ÁĞÊı¾İ´íÎó\r\n";
-					}
-					if(!Sw(array[i][title7])){
-						report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-µçÁ¦ÒÇ±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title7+1)+" ÁĞÊı¾İ´íÎó\r\n";
-					}
-					if(!Jw(array[i][title8])){
-						report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-µçÁ¦ÒÇ±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title8+1)+" ÁĞÊı¾İ´íÎó\r\n";
-					}
-					if(!Tw(array[i][title9])){
-						report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-µçÁ¦ÒÇ±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title9+1)+" ÁĞÊı¾İ´íÎó\r\n";
-					}
-					if(!Lk(array[i][title10])){
-						report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-µçÁ¦ÒÇ±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title10+1)+" ÁĞÊı¾İ´íÎó\r\n";
-					}
-					if(!Cd(array[i][title11])){
-						report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-µçÁ¦ÒÇ±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title11+1)+" ÁĞÊı¾İ´íÎó\r\n";
-					}
-				}
-		//return array;
-	}
-	public static void table4(){
-		//·µ»Ø²âÎÂ¼¯ÖĞÆ÷±í
-		String array[][] = BuildTable[wenpei]; 
-		//1.²éÕÒ±íÍ·    
-		int title1 = 0;//²É¼¯Éè±¸Î¨Ò»ID ËùÔÚÁĞ
-		int title2 = 0;//½ÓÈë·½Ê½(ÒÔÌ«Íø/´®¿Ú)  ËùÔÚÁĞ
-		int title3 = 0;//Í¨ĞÅĞ­Òé  ËùÔÚÁĞ
-		int title4 = 0;//Á¥ÊôµÄÍ¨ĞÅ¹ÜÀí»ú±àºÅ  ËùÔÚÁĞ
-		int title5 = 0;//´®¿Ú±àºÅ ËùÔÚÁĞ
-		int title6 = 0;//²¨ÌØÂÊ  ËùÔÚÁĞ
-		int title7 = 0;//Êı¾İÎ» ËùÔÚÁĞ
-		int title8 = 0;//Ğ£ÑéÎ» ËùÔÚÁĞ
-		int title9 = 0;//Í£Ö¹Î» ËùÔÚÁĞ
-		int title10 = 0;//Á÷¿Ø ËùÔÚÁĞ
-		int title11 = 0;//´ÓÕ¾µØÖ· ËùÔÚÁĞ
-		//±íÍ· ¹Ì¶¨ÔÚµÚÈıĞĞ ËùÒÔ´ÓµÚÈıĞĞ±éÀú
-		for(int j = 0;j <array[1].length;j++){
-			if (array[1][j] == null) 
+		//è¿”å›ç”µåŠ›ä»ªè¡¨
+		String array[][] = BuildTable[dianli];
+		//1.æŸ¥æ‰¾è¡¨å¤´
+		int title1 = 0;//é‡‡é›†è®¾å¤‡å”¯ä¸€ID æ‰€åœ¨åˆ—
+		int title2 = 0;//æ¥å…¥æ–¹å¼(ä»¥å¤ªç½‘/ä¸²å£)  æ‰€åœ¨åˆ—
+		int title3 = 0;//é€šä¿¡åè®®  æ‰€åœ¨åˆ—
+		int title4 = 0;//éš¶å±çš„é€šä¿¡ç®¡ç†æœºç¼–å·  æ‰€åœ¨åˆ—
+		int title5 = 0;//ä¸²å£ç¼–å· æ‰€åœ¨åˆ—
+		int title6 = 0;//æ³¢ç‰¹ç‡  æ‰€åœ¨åˆ—
+		int title7 = 0;//æ•°æ®ä½ æ‰€åœ¨åˆ—
+		int title8 = 0;//æ ¡éªŒä½ æ‰€åœ¨åˆ—
+		int title9 = 0;//åœæ­¢ä½ æ‰€åœ¨åˆ—
+		int title10 = 0;//æµæ§ æ‰€åœ¨åˆ—
+		int title11 = 0;//ä»ç«™åœ°å€ æ‰€åœ¨åˆ—
+		//è¡¨å¤´ å›ºå®šåœ¨ç¬¬ä¸‰è¡Œ æ‰€ä»¥ä»ç¬¬ä¸‰è¡Œéå†
+		for(int j = 0;j <array[3].length;j++){
+			if (array[3][j] == null)
 				break;
-			if (slim(array[1][j],"Éè±¸Î¨Ò»ID£¨ºóÆÚÈí¼şÊ¹ÓÃ£©")) {
+			if (slim(array[3][j],"é‡‡é›†è®¾å¤‡å”¯ä¸€ID")) {
 				title1= j;
 			}
-			if (slim(array[1][j],"½ÓÈë·½Ê½")) {
+			if (slim(array[3][j],"æ¥å…¥æ–¹å¼(ä»¥å¤ªç½‘/ä¸²å£)")) {
 				title2= j;
 			}
-			if (slim(array[1][j],"Í¨ĞÅĞ­Òé(modbusTCP/modbusRTU)")) {
+			if (slim(array[3][j],"é€šä¿¡åè®®(modbusTCP/modbusRTU)")) {
 				title3= j;
 			}
-			if (slim(array[1][j],"Á¥ÊôµÄÍ¨ĞÅ¹ÜÀí»ú±àºÅ")) {
+			if (slim(array[3][j],"éš¶å±çš„é€šä¿¡ç®¡ç†æœºç¼–å·")) {
 				title4= j;
 			}
-			if (slim(array[1][j],"´®¿Ú±àºÅ")) {
+			if (slim(array[3][j],"ä¸²å£ç¼–å·")) {
 				title5= j;
 			}
-			if (slim(array[1][j],"²¨ÌØÂÊ")) {
+			if (slim(array[3][j],"æ³¢ç‰¹ç‡")) {
 				title6= j;
 			}
-			if (slim(array[1][j],"Êı¾İÎ»")) {
+			if (slim(array[3][j],"æ•°æ®ä½")) {
 				title7= j;
 			}
-			if (slim(array[1][j],"Ğ£ÑéÎ»")) {
+			if (slim(array[3][j],"æ ¡éªŒä½")) {
 				title8= j;
 			}
-			if (slim(array[1][j],"Í£Ö¹Î»")) {
+			if (slim(array[3][j],"åœæ­¢ä½")) {
 				title9= j;
 			}
-			if (slim(array[1][j],"Á÷¿Ø")) {
+			if (slim(array[3][j],"æµæ§")) {
 				title10= j;
 			}
-			if (slim(array[1][j],"´ÓÕ¾µØÖ·")) {
+			if (slim(array[3][j],"ä»ç«™åœ°å€")) {
 				title11= j;
 			}
-			
+
 		}
-		//2.¼ì²éÊı¾İ·¶Î§ Êı¾İ´ÓµÚÎåĞĞ¿ªÊ¼ 
-		for(int i=2;i<array.length;i++){
+		//2.æ£€æŸ¥æ•°æ®èŒƒå›´ æ•°æ®ä»ç¬¬äº”è¡Œå¼€å§‹
+		for(int i=4;i<array.length;i++){
 			if (array[i][title1] == null) break;
-			if(!WJid(array[i][title1])){
-				report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-²âÎÂ¼¯ÖĞÆ÷±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title1+1)+" ÁĞÊı¾İ´íÎó\r\n";
+			if(!DLid(array[i][title1])){
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-ç”µåŠ›ä»ªè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title1+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
 			}
 			if(!Jr(array[i][title2])){
-				report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-²âÎÂ¼¯ÖĞÆ÷±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title2+1)+" ÁĞÊı555¾İ´íÎó\r\n";
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-ç”µåŠ›ä»ªè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title2+1)+" åˆ—æ•°555æ®é”™è¯¯\r\n";
 			}
 			if(!((array[i][title3].equals("modbusTCP"))||(array[i][title3].equals("modbusRTU")))){
-				report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-²âÎÂ¼¯ÖĞÆ÷±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title3+1)+" ÁĞÊı¾İ´íÎó\r\n";
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-ç”µåŠ›ä»ªè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title3+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
 			}
 			if(!((sTurnd(array[i][title4])>=1001)&&(sTurnd(array[i][title4])<=1999))){
-				report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-²âÎÂ¼¯ÖĞÆ÷±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title4+1)+" ÁĞÊı¾İ´íÎó\r\n";
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-ç”µåŠ›ä»ªè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title4+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
 			}
 			double c = sTurnd(array[i][title5].substring(array[i][title5].length()-1,array[i][title5].length()));
 			if(!((c>=0)&&(c<=16))){
-				report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-²âÎÂ¼¯ÖĞÆ÷±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title5+1)+" ÁĞ´®¿Ú±àºÅÊı¾İ´íÎó\r\n";
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-ç”µåŠ›ä»ªè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title5+1)+" åˆ—ä¸²å£ç¼–å·æ•°æ®é”™è¯¯\r\n";
 			}
 			if(!Bt(array[i][title6])){
-				report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-²âÎÂ¼¯ÖĞÆ÷±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title6+1)+" ÁĞÊı¾İ´íÎó\r\n";
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-ç”µåŠ›ä»ªè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title6+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
 			}
 			if(!Sw(array[i][title7])){
-				report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-²âÎÂ¼¯ÖĞÆ÷±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title7+1)+" ÁĞÊı¾İ´íÎó\r\n";
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-ç”µåŠ›ä»ªè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title7+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
 			}
 			if(!Jw(array[i][title8])){
-				report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-²âÎÂ¼¯ÖĞÆ÷±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title8+1)+" ÁĞÊı¾İ´íÎó\r\n";
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-ç”µåŠ›ä»ªè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title8+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
 			}
 			if(!Tw(array[i][title9])){
-				report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-²âÎÂ¼¯ÖĞÆ÷±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title9+1)+" ÁĞÊı¾İ´íÎó\r\n";
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-ç”µåŠ›ä»ªè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title9+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
 			}
 			if(!Lk(array[i][title10])){
-				report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-²âÎÂ¼¯ÖĞÆ÷±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title10+1)+" ÁĞÊı¾İ´íÎó\r\n";
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-ç”µåŠ›ä»ªè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title10+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
 			}
 			if(!Cd(array[i][title11])){
-				report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-²âÎÂ¼¯ÖĞÆ÷±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title11+1)+" ÁĞÊı¾İ´íÎó\r\n";
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-ç”µåŠ›ä»ªè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title11+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
+			}
+		}
+		//return array;
+	}
+	public static void table4(){
+		//è¿”å›æµ‹æ¸©é›†ä¸­å™¨è¡¨
+		String array[][] = BuildTable[wenpei];
+		//1.æŸ¥æ‰¾è¡¨å¤´
+		int title1 = 0;//é‡‡é›†è®¾å¤‡å”¯ä¸€ID æ‰€åœ¨åˆ—
+		int title2 = 0;//æ¥å…¥æ–¹å¼(ä»¥å¤ªç½‘/ä¸²å£)  æ‰€åœ¨åˆ—
+		int title3 = 0;//é€šä¿¡åè®®  æ‰€åœ¨åˆ—
+		int title4 = 0;//éš¶å±çš„é€šä¿¡ç®¡ç†æœºç¼–å·  æ‰€åœ¨åˆ—
+		int title5 = 0;//ä¸²å£ç¼–å· æ‰€åœ¨åˆ—
+		int title6 = 0;//æ³¢ç‰¹ç‡  æ‰€åœ¨åˆ—
+		int title7 = 0;//æ•°æ®ä½ æ‰€åœ¨åˆ—
+		int title8 = 0;//æ ¡éªŒä½ æ‰€åœ¨åˆ—
+		int title9 = 0;//åœæ­¢ä½ æ‰€åœ¨åˆ—
+		int title10 = 0;//æµæ§ æ‰€åœ¨åˆ—
+		int title11 = 0;//ä»ç«™åœ°å€ æ‰€åœ¨åˆ—
+		//è¡¨å¤´ å›ºå®šåœ¨ç¬¬ä¸‰è¡Œ æ‰€ä»¥ä»ç¬¬ä¸‰è¡Œéå†
+		for(int j = 0;j <array[1].length;j++){
+			if (array[1][j] == null)
+				break;
+			if (slim(array[1][j],"è®¾å¤‡å”¯ä¸€IDï¼ˆåæœŸè½¯ä»¶ä½¿ç”¨ï¼‰")) {
+				title1= j;
+			}
+			if (slim(array[1][j],"æ¥å…¥æ–¹å¼")) {
+				title2= j;
+			}
+			if (slim(array[1][j],"é€šä¿¡åè®®(modbusTCP/modbusRTU)")) {
+				title3= j;
+			}
+			if (slim(array[1][j],"éš¶å±çš„é€šä¿¡ç®¡ç†æœºç¼–å·")) {
+				title4= j;
+			}
+			if (slim(array[1][j],"ä¸²å£ç¼–å·")) {
+				title5= j;
+			}
+			if (slim(array[1][j],"æ³¢ç‰¹ç‡")) {
+				title6= j;
+			}
+			if (slim(array[1][j],"æ•°æ®ä½")) {
+				title7= j;
+			}
+			if (slim(array[1][j],"æ ¡éªŒä½")) {
+				title8= j;
+			}
+			if (slim(array[1][j],"åœæ­¢ä½")) {
+				title9= j;
+			}
+			if (slim(array[1][j],"æµæ§")) {
+				title10= j;
+			}
+			if (slim(array[1][j],"ä»ç«™åœ°å€")) {
+				title11= j;
+			}
+
+		}
+		//2.æ£€æŸ¥æ•°æ®èŒƒå›´ æ•°æ®ä»ç¬¬äº”è¡Œå¼€å§‹
+		for(int i=2;i<array.length;i++){
+			if (array[i][title1] == null) break;
+			if(!WJid(array[i][title1])){
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-æµ‹æ¸©é›†ä¸­å™¨è¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title1+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
+			}
+			if(!Jr(array[i][title2])){
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-æµ‹æ¸©é›†ä¸­å™¨è¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title2+1)+" åˆ—æ•°555æ®é”™è¯¯\r\n";
+			}
+			if(!((array[i][title3].equals("modbusTCP"))||(array[i][title3].equals("modbusRTU")))){
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-æµ‹æ¸©é›†ä¸­å™¨è¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title3+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
+			}
+//			if(!((sTurnd(array[i][title4])>=1001)&&(sTurnd(array[i][title4])<=1999))){
+//				report +="æ–½å·¥è®°å½•æ–‡ä»¶-æµ‹æ¸©é›†ä¸­å™¨è¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title4+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
+//			}
+			double c = sTurnd(array[i][title5].substring(array[i][title5].length()-1,array[i][title5].length()));
+			if(!((c>=0)&&(c<=16))){
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-æµ‹æ¸©é›†ä¸­å™¨è¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title5+1)+" åˆ—ä¸²å£ç¼–å·æ•°æ®é”™è¯¯\r\n";
+			}
+			if(!Bt(array[i][title6])){
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-æµ‹æ¸©é›†ä¸­å™¨è¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title6+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
+			}
+			if(!Sw(array[i][title7])){
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-æµ‹æ¸©é›†ä¸­å™¨è¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title7+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
+			}
+			if(!Jw(array[i][title8])){
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-æµ‹æ¸©é›†ä¸­å™¨è¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title8+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
+			}
+			if(!Tw(array[i][title9])){
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-æµ‹æ¸©é›†ä¸­å™¨è¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title9+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
+			}
+			if(!Lk(array[i][title10])){
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-æµ‹æ¸©é›†ä¸­å™¨è¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title10+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
+			}
+			if(!Cd(array[i][title11])){
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-æµ‹æ¸©é›†ä¸­å™¨è¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title11+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
 			}
 		}
 		//return array;
 	}
 	public static void table5(){
-		//·µ»Ø´«¸ĞÆ÷ºÍ²âÎÂ¼¯ÖĞÆ÷¶ÔÕÕ±í
-		String array[][] = BuildTable[wenzhao]; 
-		//1.²éÕÒ±íÍ·    
-				int title1 = 0;//²âÎÂ´«¸ĞÆ÷ID ËùÔÚÁĞ
-				int title2 = 0;//²âÎÂ¼¯ÖĞÆ÷ID  ËùÔÚÁĞ
-				int title3 = 0;//²âÎÂ´«¸ĞÆ÷ÔÚ²âÎÂ¼¯ÖĞÆ÷ÖĞµØÖ·  ËùÔÚÁĞ
+		//è¿”å›ä¼ æ„Ÿå™¨å’Œæµ‹æ¸©é›†ä¸­å™¨å¯¹ç…§è¡¨
+		String array[][] = BuildTable[wenzhao];
+		//1.æŸ¥æ‰¾è¡¨å¤´
+		int title1 = 0;//æµ‹æ¸©ä¼ æ„Ÿå™¨ID æ‰€åœ¨åˆ—
+		int title2 = 0;//æµ‹æ¸©é›†ä¸­å™¨ID  æ‰€åœ¨åˆ—
+		int title3 = 0;//æµ‹æ¸©ä¼ æ„Ÿå™¨åœ¨æµ‹æ¸©é›†ä¸­å™¨ä¸­åœ°å€  æ‰€åœ¨åˆ—
 
-				//±íÍ· ¹Ì¶¨ÔÚµÚËÄĞĞ ËùÒÔ´ÓµÚËÄĞĞ±éÀú
-				for(int j = 0;j <array[3].length;j++){
-					if (array[3][j] == null) 
-						break;
-					if (slim(array[3][j],"²âÎÂ´«¸ĞÆ÷ID")) {
-						title1= j;
-					}
-					if (slim(array[3][j],"²âÎÂ¼¯ÖĞÆ÷ID")) {
-						title2= j;
-					}
-					if (slim(array[3][j],"²âÎÂ´«¸ĞÆ÷ÔÚ²âÎÂ¼¯ÖĞÆ÷ÖĞµØÖ·")) {
-						title3= j;
-					}
-					
-				}
-				//2.¼ì²éÊı¾İ·¶Î§ Êı¾İ´ÓµÚÎåĞĞ¿ªÊ¼ 
-				for(int i=4;i<array.length;i++){
-					if (array[i][title1] == null) break;
-					if(!WCid(array[i][title1])){
-						report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-²âÎÂ´«¸ĞÆ÷ºÍ²âÎÂ¼¯ÖĞÆ÷¶ÔÕÕ±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title1+1)+" ÁĞÊı¾İ´íÎó\r\n";
-					}
-					if(!WJid(array[i][title2])){
-						report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-²âÎÂ´«¸ĞÆ÷ºÍ²âÎÂ¼¯ÖĞÆ÷¶ÔÕÕ±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title2+1)+" ÁĞÊı¾İ´íÎó\r\n";
-					}
-					if(!WD(array[i][title3])){
-						report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-²âÎÂ´«¸ĞÆ÷ºÍ²âÎÂ¼¯ÖĞÆ÷¶ÔÕÕ±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title3+1)+" ÁĞÊı¾İ´íÎó\r\n";
-					}
-				}
+		//è¡¨å¤´ å›ºå®šåœ¨ç¬¬å››è¡Œ æ‰€ä»¥ä»ç¬¬å››è¡Œéå†
+		for(int j = 0;j <array[3].length;j++){
+			if (array[3][j] == null)
+				break;
+			if (slim(array[3][j],"æµ‹æ¸©ä¼ æ„Ÿå™¨ID")) {
+				title1= j;
+			}
+			if (slim(array[3][j],"æµ‹æ¸©é›†ä¸­å™¨ID")) {
+				title2= j;
+			}
+			if (slim(array[3][j],"æµ‹æ¸©ä¼ æ„Ÿå™¨åœ¨æµ‹æ¸©é›†ä¸­å™¨ä¸­åœ°å€")) {
+				title3= j;
+			}
+
+		}
+		//2.æ£€æŸ¥æ•°æ®èŒƒå›´ æ•°æ®ä»ç¬¬äº”è¡Œå¼€å§‹
+		for(int i=4;i<array.length;i++){
+			if (array[i][title1] == null) break;
+			if(!WCid(array[i][title1])){
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-æµ‹æ¸©ä¼ æ„Ÿå™¨å’Œæµ‹æ¸©é›†ä¸­å™¨å¯¹ç…§è¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title1+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
+			}
+			if(!WJid(array[i][title2])){
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-æµ‹æ¸©ä¼ æ„Ÿå™¨å’Œæµ‹æ¸©é›†ä¸­å™¨å¯¹ç…§è¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title2+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
+			}
+			if(!WD(array[i][title3])){
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-æµ‹æ¸©ä¼ æ„Ÿå™¨å’Œæµ‹æ¸©é›†ä¸­å™¨å¯¹ç…§è¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title3+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
+			}
+		}
 		//return array;
 	}
 	public static void table6(){
-		//·µ»Ø²É¼¯PC±í
-		String array[][] = BuildTable[caiji]; 
-		//1.²éÕÒ±íÍ·    
-		int title1 = 0;//Éè±¸±àºÅ£¨×Ô¶¨ÒåÎ¨Ò»±àºÅ£© ËùÔÚÁĞ
-		int title2 = 0;//IPµØÖ·  ËùÔÚÁĞ
-		int title3 = 0;//¶Ë¿ÚºÅ ËùÔÚÁĞ
+		//è¿”å›é‡‡é›†PCè¡¨
+		String array[][] = BuildTable[caiji];
+		//1.æŸ¥æ‰¾è¡¨å¤´
+		int title1 = 0;//è®¾å¤‡ç¼–å·ï¼ˆè‡ªå®šä¹‰å”¯ä¸€ç¼–å·ï¼‰ æ‰€åœ¨åˆ—
+		int title2 = 0;//IPåœ°å€  æ‰€åœ¨åˆ—
+		int title3 = 0;//ç«¯å£å· æ‰€åœ¨åˆ—
 
-		//±íÍ· ¹Ì¶¨ÔÚµÚËÄĞĞ ËùÒÔ´ÓµÚËÄĞĞ±éÀú
+		//è¡¨å¤´ å›ºå®šåœ¨ç¬¬å››è¡Œ æ‰€ä»¥ä»ç¬¬å››è¡Œéå†
 		for(int j = 0;j <array[3].length;j++){
-			if (array[3][j] == null) 
+			if (array[3][j] == null)
 				break;
-			if (slim(array[3][j],"Éè±¸±àºÅ£¨×Ô¶¨ÒåÎ¨Ò»±àºÅ£©")) {
+			if (slim(array[3][j],"è®¾å¤‡ç¼–å·ï¼ˆè‡ªå®šä¹‰å”¯ä¸€ç¼–å·ï¼‰")) {
 				title1= j;
 			}
-			if (slim(array[3][j],"IPµØÖ·")) {
+			if (slim(array[3][j],"IPåœ°å€")) {
 				title2= j;
 			}
-			if (slim(array[3][j],"¶Ë¿ÚºÅ")) {
+			if (slim(array[3][j],"ç«¯å£å·")) {
 				title3= j;
 			}
-			
+
 		}
-		//2.¼ì²éÊı¾İ·¶Î§ Êı¾İ´ÓµÚÎåĞĞ¿ªÊ¼ 
+		//2.æ£€æŸ¥æ•°æ®èŒƒå›´ æ•°æ®ä»ç¬¬äº”è¡Œå¼€å§‹
 		for(int i=4;i<array.length;i++){
 			if (array[i][title1] == null) break;
 			if(!PCid(array[i][title1])){
-				report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-²É¼¯PC±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title1+1)+" ÁĞÊı¾İ´íÎó\r\n";
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-é‡‡é›†PCè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title1+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
 			}
 			if(!IP(array[i][title2])){
-				report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-²É¼¯PC±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title2+1)+" ÁĞÊı¾İ´íÎó\r\n";
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-é‡‡é›†PCè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title2+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
 			}
 			if(!DKnumber(array[i][title3])){
-				report +="Ê©¹¤¼ÇÂ¼ÎÄ¼ş-²É¼¯PC±í:µÚ  "+(i+1)+"ĞĞ  µÚ "+(title3+1)+" ÁĞÊı¾İ´íÎó\r\n";
+				report +="æ–½å·¥è®°å½•æ–‡ä»¶-é‡‡é›†PCè¡¨:ç¬¬  "+(i+1)+"è¡Œ  ç¬¬ "+(title3+1)+" åˆ—æ•°æ®é”™è¯¯\r\n";
 			}
 		}
 		//return array;
@@ -469,7 +464,7 @@ public class readBuildTables {
 		return Double.valueOf(a);
 	}
 	public static boolean WJid(String a){
-		//ÅĞ¶Ï²âÎÂ¼¯ÖĞÆ÷µÄ Î¨Ò»ID ÊÇ·ñÕıÈ·
+		//åˆ¤æ–­æµ‹æ¸©é›†ä¸­å™¨çš„ å”¯ä¸€ID æ˜¯å¦æ­£ç¡®
 		double b = sTurnd(a);
 		if(b<=399999&&b>=300001)
 			return true;
@@ -477,15 +472,15 @@ public class readBuildTables {
 			return false;
 	}
 	public static boolean WCid(String a){
-		//²âÎÂ´«¸ĞÆ÷IDÎ¨Ò»ID ÊÇ·ñÕıÈ·
-				double b = sTurnd(a);
-				if(b<=299999&&b>=200001)
-					return true;
-				else
-					return false;
+		//æµ‹æ¸©ä¼ æ„Ÿå™¨IDå”¯ä¸€ID æ˜¯å¦æ­£ç¡®
+		double b = sTurnd(a);
+		if(b<=299999&&b>=200001)
+			return true;
+		else
+			return false;
 	}
 	public static boolean DLid(String a){
-		//ÅĞ¶ÏµçÁ¦ÒÇ±íµÄ Î¨Ò»ID ÊÇ·ñÕıÈ·
+		//åˆ¤æ–­ç”µåŠ›ä»ªè¡¨çš„ å”¯ä¸€ID æ˜¯å¦æ­£ç¡®
 		double b = sTurnd(a);
 		if(b<=199999&&b>=100001)
 			return true;
@@ -493,23 +488,23 @@ public class readBuildTables {
 			return false;
 	}
 	public static boolean PCid(String a){
-		//²âÎÂ´«¸ĞÆ÷ÔÚ²âÎÂ¼¯ÖĞÆ÷ÖĞµØÖ·  ÊÇ·ñÕıÈ·
+		//æµ‹æ¸©ä¼ æ„Ÿå™¨åœ¨æµ‹æ¸©é›†ä¸­å™¨ä¸­åœ°å€  æ˜¯å¦æ­£ç¡®
 		double b = sTurnd(a);
 		if(b<=999&&b>=1)
 			return true;
 		else
 			return false;
 	}
-	
+
 	public static boolean DKnumber(String a){
 		double b = sTurnd(a);
-		if(!(b<=65535&&b>=0)) 
+		if(!(b<=65535&&b>=0))
 			return false;
-		else 
+		else
 			return true;
 	}
 	public static boolean IP(String a){
-		
+
 		boolean T = true;
 		String b[] = a.split("\\.");
 		if(!(b.length == 4)) return false;
@@ -523,49 +518,49 @@ public class readBuildTables {
 		return T;
 	}
 	public static boolean WD(String a){
-		//²âÎÂ´«¸ĞÆ÷ÔÚ²âÎÂ¼¯ÖĞÆ÷ÖĞµØÖ·  ÊÇ·ñÕıÈ·
-				double b = sTurnd(a);
-				if(b<=65535&&b>=0)
-					return true;
-				else
-					return false;
+		//æµ‹æ¸©ä¼ æ„Ÿå™¨åœ¨æµ‹æ¸©é›†ä¸­å™¨ä¸­åœ°å€  æ˜¯å¦æ­£ç¡®
+		double b = sTurnd(a);
+		if(b<=65535&&b>=0)
+			return true;
+		else
+			return false;
 	}
 	public static boolean Jr(String a){
-		//ÅĞ¶Ï½ÓÈë·½Ê½
+		//åˆ¤æ–­æ¥å…¥æ–¹å¼
 		String b = a.replaceAll("\n", "").replaceAll(" ", "");
-		if(b.equals("´®¿Ú")||b.equals("ÒÔÌ«Íø"))
+		if(b.equals("ä¸²å£")||b.equals("ä»¥å¤ªç½‘"))
 			return true;
 		else
 			return false;
 	}
 	public static boolean Bt(String a){
-		//ÅĞ¶Ï²¨ÌØÂÊ 
+		//åˆ¤æ–­æ³¢ç‰¹ç‡
 		boolean T = false;
 		int b = (int)sTurnd(a);
 		switch(b){
-		case 1200:T = true;break;
-		case 2400:T = true;break;
-		case 4800:T = true;break;
-		case 9600:T = true;break;
-		case 14400:T = true;break;
-		case 19200:T = true;break;
-		case 38400:T = true;break;
-		case 43000:T = true;break;
-		case 57600:T = true;break;
-		case 76800:T = true;break;
-		case 115200:T = true;break;
-		case 128000:T = true;break;
-		case 230400:T = true;break;
-		case 256000:T = true;break;
-		case 460800:T = true;break;
-		case 921600:T = true;break;
-		case 1382400:T = true;break;
-		default:T = false;
+			case 1200:T = true;break;
+			case 2400:T = true;break;
+			case 4800:T = true;break;
+			case 9600:T = true;break;
+			case 14400:T = true;break;
+			case 19200:T = true;break;
+			case 38400:T = true;break;
+			case 43000:T = true;break;
+			case 57600:T = true;break;
+			case 76800:T = true;break;
+			case 115200:T = true;break;
+			case 128000:T = true;break;
+			case 230400:T = true;break;
+			case 256000:T = true;break;
+			case 460800:T = true;break;
+			case 921600:T = true;break;
+			case 1382400:T = true;break;
+			default:T = false;
 		}
 		return T;
 	}
 	public static boolean Sw(String a){
-		//ÅĞ¶ÏÊı¾İÎ»
+		//åˆ¤æ–­æ•°æ®ä½
 		if(((sTurnd(a)>=5)&&(sTurnd(a)<=8))){
 			return true;
 		}else{
@@ -573,7 +568,7 @@ public class readBuildTables {
 		}
 	}
 	public static boolean Jw(String a){
-		//ÅĞ¶ÏĞ£ÑéÎ»
+		//åˆ¤æ–­æ ¡éªŒä½
 		if(a.equals("N")||a.equals("O")||a.equals("E")){
 			return true;
 		}else{
@@ -581,7 +576,7 @@ public class readBuildTables {
 		}
 	}
 	public static boolean Tw(String a){
-		//ÅĞ¶ÏÍ£Ö¹Î»
+		//åˆ¤æ–­åœæ­¢ä½
 		double b = sTurnd(a);
 		if(b==1||b==1.5||b==2)
 			return true;
@@ -589,14 +584,14 @@ public class readBuildTables {
 			return false;
 	}
 	public static boolean Lk(String a){
-		//ÅĞ¶ÏÁ÷¿Ø
+		//åˆ¤æ–­æµæ§
 		boolean T;
 		switch(a){
-		case "N": T = true; break;
-		case "R": T = true; break;
-		case "D": T = true; break;
-		case "RD": T = true; break;
-		default :T = false;
+			case "N": T = true; break;
+			case "R": T = true; break;
+			case "D": T = true; break;
+			case "RD": T = true; break;
+			default :T = false;
 		}
 		return T;
 	}

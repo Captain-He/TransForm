@@ -4,28 +4,15 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import readTables.readTables;
+import readTables.ReadTables;
 
-public class readReferTable {
+public class ReadReferTable {
 
-	//public static final int max_X = 1000;//数组中每张表行数的最大值
 	public static final int max_Y = 100;//数组中表列数的最大值
-//	public static void main(String[] args) {
-//		// TODO Auto-generated method stub
-//		String a[][] = readReferTable("C:/Users/Admin/Desktop/设备型号表-V1.0.xlsx");
-//
-//			for(int j=0;j<a.length;j++){
-//				for(int k=0;k<a[j].length;k++)
-//				{
-//					if(a[j][k]== null || a[j][k].length() <= 0) continue;
-//					System.out.println(a[j][k]);
-//				}
-//			}
-//			System.out.println(a[0][0]);
-//	}
+	public static final int max_x= 10;//数组中表行数的最大值
 	// 读取数据再组织规则表，返回数组
-		public String[][] readReferTable(String dir) {
-			readTables readrefertable = new readTables();
+		public  String[][] readReferTable(String dir) {
+			ReadTables readrefertable = new ReadTables();
 			Workbook wb = null;
 			Sheet sheet = null;
 			Row row = null;
@@ -48,5 +35,28 @@ public class readReferTable {
 			}
 			return referTable;
 		}
-
+		public int returnItemNum(String array[][],String value){
+			int index = 0;
+			for(int i=0;i<array.length;i++){
+				for(int j=0;j<array[i].length;j++){
+					if(array[i][j] == null) continue;
+					if(slim(array[i][j]).equals(value)){
+						index = j;
+					}
+						
+				}
+			}
+			return index;
+		}
+		public static String slim(String str){
+			String a = "";
+			char array[] = str.replaceAll("\n", "").replaceAll(" ", "").replace("\r", "").toCharArray();
+			for(int i=0;i<array.length;i++){
+				if(array[i]=='|'){
+					break;
+				}
+				a+=array[i];
+			}
+			return a;
+		}
 }

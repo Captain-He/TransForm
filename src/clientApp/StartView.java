@@ -6,29 +6,24 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import readBuildTables.readBuildTables;
-import readDevTables.readDevTables;
+import convertToTxt.Sql;
+import readBuildTables.ReadBuildTables;
+import readDevTables.ReadDevTables;
 
 public class StartView {
 
 	public static  String path1 = "a";
 	public static String path2 = "a";
-    public static String savepath = "a";
+
+    public static int sql = 0;
     static String buildTable[][][];
     static String devTable[][][];
 	public static void main(String[] args) throws IOException {
 		
-		 final JFrame jf = new JFrame("表格转化");
+		 final JFrame jf = new JFrame("表格转换");
 	        jf.setSize(350, 300);
 	        jf.setLocationRelativeTo(null);
 	        jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -63,32 +58,47 @@ public class StartView {
 	            }
 	        });
 	        panel.add(openBtnb);
-	        
-	        JButton openBtnc = new JButton("选择存储路径");
-	        openBtnc.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	            	JFileChooser chooser = new JFileChooser();
-	            	chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-	            	chooser.showOpenDialog(null);
-	            	savepath = chooser.getSelectedFile().getPath();
-	            	msgTextArea.append("打开文件: " + savepath + "\n\n");
-	            }
-	        });
-	        panel.add(openBtnc);
 
-	        JButton saveBtn = new JButton("转化");
+			JRadioButton b1 = new JRadioButton("导出SQL文件");
+			panel.add(b1);
+
+			b1.addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					// TODO Auto-generated method stub
+					if(b1.isSelected()){
+						msgTextArea.append("确定导出sql文件\n");
+					}else{
+						msgTextArea.append("取消导出sql文件\n");
+					}
+				}
+			});
+
+	        JButton saveBtn = new JButton("转换");
 	        saveBtn.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	            	mainMethods callprogram = new mainMethods();
-	            	if(path1.equals("a")||path2.equals("a")){
+	            	MainMethods callprogram = new MainMethods();
+					File directory = new File("");
+					String savepath = null;
+					try {
+						savepath = directory.getCanonicalPath();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+
+					if(path1.equals("a")||path2.equals("a")){
 	            		JOptionPane.showMessageDialog(null, "请输入完整的文档", "标题【注意】", JOptionPane.ERROR_MESSAGE);
-	            		if(savepath.equals("a")){
-	            			JOptionPane.showMessageDialog(null, "请选择文件保存路径", "标题【注意】", JOptionPane.ERROR_MESSAGE);
-	            		}
 	            	}else{
-	            		callprogram.mainMethod(path1,path2,savepath,buildTable,devTable);
+	            		boolean work = callprogram.mainMethod(path2,path1,savepath+"/document");
+	            		 if(work) {
+							 msgTextArea.append("转换完成,文件保存路径为"+savepath+"/document\n");
+							 if(b1.isSelected()){
+								 Sql a = new Sql();
+								 a.toTxt(path2,savepath+"/document");
+							 }
+						 }
+	            		 else msgTextArea.append("出现错误");
 	            	}
 	            }
 	        });
@@ -105,7 +115,7 @@ public class StartView {
         JFileChooser fileChooser = new JFileChooser();
 
         // 设置默认显示的文件夹为当前文件夹
-        fileChooser.setCurrentDirectory(new File("."));
+        fileChooser.setCurrentDirectory(new File("./document"));
 
         // 设置文件选择的模式（只选文件、只选文件夹、文件和文件均可选）
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -128,13 +138,13 @@ public class StartView {
             // File[] files = fileChooser.getSelectedFiles();
             if(p=='a'){
             	path1 = file.getAbsolutePath();
-            	readDevTables read = new readDevTables();
+            	ReadDevTables read = new ReadDevTables();
             	devTable = read.readTables(path1);
                 msgTextArea.append("打开文件: " + file.getAbsolutePath() + "\n"+read.errors());
             }
             if(p=='b'){
             	path2 = file.getAbsolutePath();
-            	readBuildTables read = new readBuildTables();
+            	ReadBuildTables read = new ReadBuildTables();
             	buildTable = read.readTables(path2);
                 msgTextArea.append("打开文件: " + file.getAbsolutePath() + "\n"+read.errors());
             }	

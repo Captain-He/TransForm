@@ -4,9 +4,9 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import readTables.readTables;
+import readTables.ReadTables;
 
-public class readDevTables {
+public class ReadDevTables {
 
 	public static final int max_X = 1000;//数组中每张表行数的最大值
 	public static final int max_Y = 100;//数组中每张表列数的最大值
@@ -15,7 +15,7 @@ public class readDevTables {
 
 	// 读取设备型号表，返回数组
 	public String[][][] readTables(String dir) {
-		readTables readdevtables = new readTables(); 
+		ReadTables readdevtables = new ReadTables(); 
 		Workbook wb = null;
 		Sheet sheet = null;
 		Row row = null;
@@ -70,9 +70,12 @@ public class readDevTables {
 				if(slim(array[i][1][j],"寄存器地址")){
 					checkNums(i,j,65535,0);
 				}
-				if(slim(array[i][1][j],"倍率")){
-					checkNums(i,j,1,0);
+				if(slim(array[i][1][j],"单个数据占据的寄存器数量")){
+					checkNums(i,j,2,1);
 				}
+//				if(slim(array[i][1][j],"倍率")){
+//					checkNums(i,j,1,0);
+//				}
 			}
 		}
 		return array;
@@ -95,7 +98,8 @@ public class readDevTables {
 			String a[] = DevTable[i][k][j].split("/");
 			for(int q=0;q<a.length;q++){
 				if(a[q] == null) break;
-				if(!(a[q].equals("short")||a[q].equals("float")||a[q].equals("long"))){
+				String temp = slim(a[q]);
+				if(!(temp.equals("SHORT")||temp.equals("FLOAT")||temp.equals("LONG")||temp.equals("USHORT"))){
 					report +="设备型号表文件  - "+DevTable[i][0][0]+" 表:第  "+(k+1)+" 行  第 "+(j+1)+" 列数据错误\r\n";
 					break;
 				}
@@ -118,6 +122,9 @@ public class readDevTables {
 	}
 	public static double sTurnd(String a){
 		return Double.valueOf(a);
+	}
+	public static String slim(String a){
+		return a.replaceAll("\n", "").replaceAll(" ", "");
 	}
 	public String errors(){
 		return report;
