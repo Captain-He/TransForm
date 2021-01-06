@@ -1,38 +1,37 @@
 package clientApp;
 
-import readBuildTables.ReadBuildTables;
-import readDevTables.ReadDevTables;
-import readReferTable.ReadReferTable;
-import convertToTxt.ConcentratorList;
-import convertToTxt.DevLink;
-import convertToTxt.DpuList;
-import convertToTxt.SensorDevList;
+import convertToTxt.*;
+import readXlsxFile.ReadBuildFile;
+import readXlsxFile.ReadDevFile;
+import readXlsxFile.ReadReferTable;
+import sensorTypeModel.SensorTypeTables;
 
 public class MainMethods {
 
-	public  boolean mainMethod(String buildPath,String devPath,String savePath) {
-		//referTable为数据再组织规则表 ；buildTable 为施工记录表； devTable 为设备型号表 
-		ReadDevTables  devTable = new ReadDevTables();
-		String devTables[][][] = devTable.readTables(devPath);
-		
-		ReadReferTable referTable = new ReadReferTable();
-		String referTables[][] = referTable.readReferTable(devPath);
-		
-		ReadBuildTables buildTable = new ReadBuildTables();
-		String buildTables[][][] = buildTable.readTables(buildPath);
-		
+	public  boolean mainMethod(String buildFilePath,String concentratorFilePath,String sensorTypeFilePath, String saveTxtPath) {
+		//referTable为数据再组织规则表 ；buildTable 为施工记录表； devTable 为设备型号表
+
+		String concentratorDevFile[][][] = ReadDevFile.readTables(concentratorFilePath);
+		String buildFile[][][] = ReadBuildFile.readTables(buildFilePath);
+
+		SensorTypeTables sensorTypeTables = new SensorTypeTables(sensorTypeFilePath);
+
 		DevLink dl = new DevLink();
-		dl.toTxt(buildTables, savePath+"/dev_link.txt");
-		
-		ConcentratorList cl = new ConcentratorList();
-		cl.toTxt(buildTables, devTables,savePath+"/concentrator_list.txt");
-		
+		dl.toTxt(buildFile,saveTxtPath+"dev_link.txt");
+
 		DpuList dpuTxt = new DpuList();
-		dpuTxt.toTxt(buildTables, savePath+"/dpu_list.txt");
+		dpuTxt.toTxt(buildFile, saveTxtPath+"dpu_list.txt");
+
+		ConcentratorList cl = new ConcentratorList();
+		cl.toTxt(buildFile, concentratorDevFile,saveTxtPath+"concentrator_list.txt");
+
+		ReadReferTable referTable = new ReadReferTable();
+		String referTables[][] = referTable.readReferTable(concentratorFilePath);
 
 		SensorDevList sd = new SensorDevList();
-		sd.toTxt(buildTables, devTables,referTables,savePath+"/sensor_dev_list.txt");
-		
+		sd.toTxt(buildFile, concentratorDevFile,sensorTypeTables.sensorTypes,saveTxtPath+"sensor_dev_list.txt");
+		Sql a = new Sql(buildFilePath,sensorTypeTables.sensorTypes, saveTxtPath);
+		a.toTxt();
 		return true;
 	}
 }

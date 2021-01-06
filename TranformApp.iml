@@ -7,18 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/poi-3.9" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/poi-3.9" />
-        </SOURCES>
-        <jarDirectory url="file://$MODULE_DIR$/poi-3.9" recursive="false" />
-        <jarDirectory url="file://$MODULE_DIR$/poi-3.9" recursive="false" type="SOURCES" />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="TranformApp" level="project" />
+    <orderEntry type="library" name="poi-3.9" level="project" />
   </component>
 </module>

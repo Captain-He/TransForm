@@ -9,21 +9,20 @@ import java.io.IOException;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import convertToTxt.Sql;
-import readBuildTables.ReadBuildTables;
-import readDevTables.ReadDevTables;
+import readXlsxFile.ReadBuildFile;
+import readXlsxFile.ReadDevFile;
 
 public class StartView {
 
-	public static  String path1 = "a";
-	public static String path2 = "a";
-
+	public static  String concentratorFilePath = "e";
+	public static String buildFilePath = "e";
+	public static String sensorTypeFilePath = "e";
     public static int sql = 0;
     static String buildTable[][][];
     static String devTable[][][];
 	public static void main(String[] args) throws IOException {
 		
-		 final JFrame jf = new JFrame("表格转换");
+		 final JFrame jf = new JFrame("配置文件生成器");
 	        jf.setSize(350, 300);
 	        jf.setLocationRelativeTo(null);
 	        jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -41,7 +40,7 @@ public class StartView {
 	        msgTextArea.setLineWrap(true);
 	        panel.add(js);
 
-	        JButton openBtna = new JButton("导入设备型号表");
+	        JButton openBtna = new JButton("导入集中器型号表");
 	        openBtna.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
@@ -59,20 +58,14 @@ public class StartView {
 	        });
 	        panel.add(openBtnb);
 
-			JRadioButton b1 = new JRadioButton("导出SQL文件");
-			panel.add(b1);
-
-			b1.addActionListener(new ActionListener(){
+			JButton openBtnc = new JButton("导入传感器型号表");
+			openBtnc.addActionListener(new ActionListener() {
 				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					// TODO Auto-generated method stub
-					if(b1.isSelected()){
-						msgTextArea.append("确定导出sql文件\n");
-					}else{
-						msgTextArea.append("取消导出sql文件\n");
-					}
+				public void actionPerformed(ActionEvent e) {
+					showFileOpenDialog(jf, msgTextArea,'c');
 				}
 			});
+			panel.add(openBtnc);
 
 	        JButton saveBtn = new JButton("转换");
 	        saveBtn.addActionListener(new ActionListener() {
@@ -87,16 +80,12 @@ public class StartView {
 						e1.printStackTrace();
 					}
 
-					if(path1.equals("a")||path2.equals("a")){
+					if(concentratorFilePath.equals("e")||buildFilePath.equals("e")||sensorTypeFilePath.equals("e")){
 	            		JOptionPane.showMessageDialog(null, "请输入完整的文档", "标题【注意】", JOptionPane.ERROR_MESSAGE);
 	            	}else{
-	            		boolean work = callprogram.mainMethod(path2,path1,savepath+"/document");
+	            		boolean work = callprogram.mainMethod(buildFilePath,concentratorFilePath,sensorTypeFilePath,savepath+"/document/");
 	            		 if(work) {
 							 msgTextArea.append("转换完成,文件保存路径为"+savepath+"/document\n");
-							 if(b1.isSelected()){
-								 Sql a = new Sql();
-								 a.toTxt(path2,savepath+"/document");
-							 }
 						 }
 	            		 else msgTextArea.append("出现错误");
 	            	}
@@ -137,17 +126,21 @@ public class StartView {
             // 如果允许选择多个文件, 则通过下面方法获取选择的所有文件
             // File[] files = fileChooser.getSelectedFiles();
             if(p=='a'){
-            	path1 = file.getAbsolutePath();
-            	ReadDevTables read = new ReadDevTables();
-            	devTable = read.readTables(path1);
+	            concentratorFilePath = file.getAbsolutePath();
+            	ReadDevFile read = new ReadDevFile();
+            	devTable = read.readTables(concentratorFilePath);
                 msgTextArea.append("打开文件: " + file.getAbsolutePath() + "\n"+read.errors());
             }
             if(p=='b'){
-            	path2 = file.getAbsolutePath();
-            	ReadBuildTables read = new ReadBuildTables();
-            	buildTable = read.readTables(path2);
+	            buildFilePath = file.getAbsolutePath();
+            	ReadBuildFile read = new ReadBuildFile();
+            	buildTable = read.readTables(buildFilePath);
                 msgTextArea.append("打开文件: " + file.getAbsolutePath() + "\n"+read.errors());
-            }	
+            }
+	        if(p=='c'){
+		        sensorTypeFilePath = file.getAbsolutePath();
+		        msgTextArea.append("打开文件: " + file.getAbsolutePath() + "\n");
+	        }
             //msgTextArea.append("打开文件: " + file.getAbsolutePath() + "\n");
         }
     }

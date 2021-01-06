@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 public class DeviceModel {
 	private static int beginNum = 1;
-	private static int beginSheet = 2;
+	private static int beginSheet = 0;
 	public Map<String,List<DataCell>> getList(String array[][][]){
 		
 		Map<String,List<DataCell>> map = new HashMap<String,List<DataCell>>();
@@ -27,7 +27,7 @@ public class DeviceModel {
 			int parameter = searchTitle(array[i],"参数B"); //参数
 			List<DataCell> list = new ArrayList<DataCell>();
 			for(int j=beginNum+1;j<array[i].length;j++){
-				if(array[i][j][0] == null) continue;
+				if(array[i][j][0] == null||array[i][j][0].equals("#####")) continue;
 				DataCell object = new DataCell();
 				object.setRequestTimes(array[i][j][requestTimes]);
 				object.setSegmentNum(array[i][j][segmentNum]);

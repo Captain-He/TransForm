@@ -1,8 +1,8 @@
 package convertToTxt;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,13 +10,15 @@ import construction.record.equipments.GeneralMap;
 import construction.record.equipments.PowerMeter;
 import construction.record.equipments.TemperComparative;
 import construction.record.equipments.TemperConcentrator;
-import construction.record.functional.GeneralMapTable;
+import construction.record.functional.SensorsTable;
 import construction.record.functional.PowerMeterTable;
 import construction.record.functional.TemperComparativeTable;
 import construction.record.functional.TemperConcentratorTable;
 import device.model.DataCell;
 import device.model.DeviceModel;
-import readReferTable.ReadReferTable;
+import readXlsxFile.ReadReferTable;
+import sensorTypeModel.DataItem;
+import sensorTypeModel.SensorType;
 import writeFile.WriteFile;
 
 public class SensorDevList {
@@ -27,9 +29,9 @@ public class SensorDevList {
 + 数据数量 ====== 没写
 + {Item序号/寄存器地址/单个数据占据的寄存器数量/倍率/数据类型}
 */
-	
-	public void toTxt(String[][][] buildArray,String[][][]devArray  ,String [][]referTable,String savePath){
-		GeneralMapTable gm = new GeneralMapTable();
+	private ArrayList<SensorType> sensorTypes;
+	public void toTxt(String[][][] buildArray, String[][][]devArray , ArrayList<SensorType> sensorTypes, String saveTxtPath){
+		SensorsTable gm = new SensorsTable();
 		List<GeneralMap> gmlist = gm.getList(buildArray);
 		gm.getList(buildArray);
 		
@@ -45,14 +47,14 @@ public class SensorDevList {
 		DeviceModel dm = new DeviceModel();
 		Map<String,List<DataCell>> map = dm.getList(devArray);
 
-		ReadReferTable rf = new ReadReferTable();
+		this.sensorTypes = sensorTypes;
 		
 		StringBuffer content = new StringBuffer();
-		
+		/*
 		for(GeneralMap gmobj:gmlist){
 			if(gmobj.getId()>=100000&&gmobj.getId()<=199999){
 				String s = gmobj.getId()+" "+gmobj.getId()+" ";
-				String ss = "";
+				String mainMassage = "";
 				int num = 0;
 				for(Map.Entry<String, List<DataCell>> dmmap:map.entrySet()){
 					String mapKey = dmmap.getKey();
@@ -65,51 +67,64 @@ public class SensorDevList {
 								//Item序号/寄存器地址/单个数据占据的寄存器数量/倍率/数据类型
 								String dataMeaning = slim(dcobj.getDataMeaning().get(i));
 								String address = slim(dcobj.getRegisterAddress().get(i));
-								int reNum = Double.valueOf(slim(dcobj.getRegisterNum().get(i))).intValue();
+								String reNum = slim(dcobj.getRegisterNum().get(i));
 								String times = slim(dcobj.getDataTimes().get(i));
 								String dataType = slim(dcobj.getDataType().get(i));
 								String temp = slim(dataMeaning);
 								int itemNum = rf.returnItemNum(referTable, temp);
-								ss += itemNum +"/"+address+"/"+reNum+"/"+times+"/"+dataType+" ";
+								mainMassage += itemNum +"/"+address+"/"+reNum+"/"+times+"/"+dataType+" ";
 							}
 						}
 					}
 				}
-				content.append(s+" "+num+" "+ss+"\n");
+				if(mainMassage != null)
+				content.append(s+" "+num+" "+mainMassage+"\n");
 			}
 		}
+		*/
 		for(GeneralMap gmobj:gmlist){
 			if(gmobj.getId()>=200000&&gmobj.getId()<=299999){
 				String s = gmobj.getId()+" ";
-				String ss = "";
 				int num = 0;
-				//System.out.println(s+" --");
+				String mainMassage = "";
+				int tcJiId = 0;
 				for(TemperComparative tpobj:tplist){
-					//System.out.println(tpobj.getAddress()+"@@@");
-					if(gmobj.getId()==tpobj.getWenId()){
-						//tcobj.getWenId()
+					if(gmobj.getId()==tpobj.getWenId()){//施工总图中的 设备ID 匹配 对照表中的设备ID  找到对照表中的tpobj
 						for(TemperConcentrator tcobj:tclist){
-							if(tpobj.getJiId() == tcobj.getId()){
-								//tcobj.getDeviceType()
-								s+=tpobj.getJiId();
+							if(tpobj.getJiId() == tcobj.getId()){//对照表中tpobj的集中器ID 匹配 集中器表中的ID 找到tcobj
+								tcJiId = tcobj.getId();
+								s+=tcobj.getId();
 								for(Map.Entry<String, List<DataCell>> dmmap:map.entrySet()){
 									String mapKey = dmmap.getKey();
+									//System.out.println(mapKey+"********");
 									List<DataCell> dclist = dmmap.getValue();
 									for(DataCell dcobj:dclist){
 										if(tcobj.getDeviceType().equals(mapKey)){
-											for(int i=0;i<dcobj.getDataMeaning().size();i++){
+
 												num++;
-												//System.out.println(tpobj.getAddress()+"@@@"+dcobj.getStartAddress());
 												//Item序号/寄存器地址/单个数据占据的寄存器数量/倍率/数据类型
-												String dataMeaning = slim(dcobj.getDataMeaning().get(i));
-												int address = dcobj.getStartAddress()+tpobj.getAddress();
-												int reNum = Double.valueOf(slim(dcobj.getRegisterNum().get(i))).intValue();
-												String times = slim(dcobj.getDataTimes().get(i));
-												String dataType = slim(dcobj.getDataType().get(i));
+												String dataMeaning = slim(dcobj.getDataMeaning().get(0));
+												int address = dcobj.getStartAddress()+tpobj.getFirstRelativeOffsetAddress()+ tpobj.getS()* (tpobj.getI()-1);
+												int reNum = Double.valueOf(slim(dcobj.getRegisterNum().get(0))).intValue();
+												String times = slim(dcobj.getDataTimes().get(0));
+												String dataType = slim(dcobj.getDataType().get(0));
+												String parameterB = string2double(slim(dcobj.getParameter().get(0)));
 												String temp = slim(dataMeaning);
-												int itemNum = rf.returnItemNum(referTable, temp);
-												ss += itemNum +"/"+address+"/"+reNum+"/"+times+"/"+dataType+" ";
-											}
+												int itemNum =returnItemNum(mapKey,temp);
+												mainMassage += itemNum +"/"+address+"/"+reNum+"/"+times+"/"+parameterB+"/"+dataType+" ";
+												if(tpobj.getS() >1){
+													//Item序号/寄存器地址/单个数据占据的寄存器数量/倍率/数据类型
+													for(int k=1;k< tpobj.getS();k++){
+														num++;
+														dataMeaning = slim(dcobj.getDataMeaning().get(k));
+														reNum = Double.valueOf(slim(dcobj.getRegisterNum().get(0))).intValue();
+														times = slim(dcobj.getDataTimes().get(0));
+														dataType = slim(dcobj.getDataType().get(0));
+														temp = slim(dataMeaning);
+														itemNum =returnItemNum(mapKey,temp);
+														mainMassage += itemNum +"/"+(address+k)+"/"+reNum+"/"+times+"/"+parameterB+"/"+dataType+" ";
+													}
+												}
 										}
 									}
 								}
@@ -117,19 +132,40 @@ public class SensorDevList {
 						}
 					}
 				}
-				content.append(s+" "+num+" "+ss+"\n");
+				if(mainMassage != null&&tcJiId != 0){
+					System.out.println(s+" "+num+" "+mainMassage+"\n");
+					content.append(s+" "+num+" "+mainMassage+"\n");
+				}
 			}
 		}
 		WriteFile writefile = new WriteFile();
 		try {
-			writefile.WriteToFile(content.toString(), savePath);
+			writefile.WriteToFile(content.toString().trim(), saveTxtPath);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
-	public static String slim(String a){
+	private int returnItemNum(String concentratorTypeName,String dataItemMean){
+		int itemNum = -1;
+		for (SensorType sensorType:sensorTypes){
+			if(concentratorTypeName.contains(sensorType.getSensorTypeName())){
+				for(DataItem dataItem:sensorType.getSensorTypeList()){
+					if(dataItemMean.equals(dataItem.getDataMeans())){
+						itemNum = dataItem.getItemNum();
+					}
+				}
+			}
+		}
+		return itemNum;
+	}
+	private String string2double(String str){
+		Double doubleStr = Double.parseDouble(str);
+		DecimalFormat strFormat = new DecimalFormat("0.000000");
+		String s = strFormat.format(doubleStr);
+		return s;
+	}
+	public String slim(String a){
 		return a.replaceAll("\n", "").replaceAll(" ", "");
 	}
 }

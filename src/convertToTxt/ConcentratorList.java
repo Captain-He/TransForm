@@ -1,15 +1,13 @@
 package convertToTxt;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import construction.record.equipments.GeneralMap;
 import construction.record.equipments.PowerMeter;
 import construction.record.equipments.TemperConcentrator;
-import construction.record.functional.GeneralMapTable;
+import construction.record.functional.SensorsTable;
 import construction.record.functional.PowerMeterTable;
 import construction.record.functional.TemperConcentratorTable;
 import device.model.DataCell;
@@ -31,7 +29,7 @@ public class ConcentratorList {
 + {分段序号/+ 功能码 （int，0~255）/寄存器起始地址/寄存器数量}*/
 	
 	public void toTxt(String buildArray[][][],String devArray[][][],String savePath){
-		GeneralMapTable gm = new GeneralMapTable();
+		SensorsTable gm = new SensorsTable();
 		List<GeneralMap> gmlist =gm.getList(buildArray);
 
 		
@@ -51,7 +49,7 @@ public class ConcentratorList {
 				for(PowerMeter pmobj:pmlist){
 					if(gmobj.getId() == pmobj.getId()){
 						String s = pmobj.getId()+" "+pmobj.getComNum()+" "+pmobj.getBpsNum()+" "+pmobj.getDataBit()+" "+pmobj.getCheckBit()+" "+pmobj.getStopBit()+" "+pmobj.getFluidControl()+" "+pmobj.getSlaveAddress()+" ";
-						String ss = "";
+						String mainMassage = "";
 						int a = 0;
 						for(Map.Entry<String, List<DataCell>> dmmap:map.entrySet()){
 							String mapKey = dmmap.getKey();
@@ -59,11 +57,12 @@ public class ConcentratorList {
 							for(DataCell dcobj:dclist){
 								if(gmobj.getDevType().equals(mapKey)){
 									a = dcobj.getRequestTimes();
-									ss += dcobj.getSegmentNum()+"/"+dcobj.getFunctionCode()+"/"+dcobj.getStartAddress()+"/"+dcobj.getRegisterCount()+" ";
+									mainMassage += dcobj.getSegmentNum()+"/"+dcobj.getFunctionCode()+"/"+dcobj.getStartAddress()+"/"+dcobj.getRegisterCount()+" ";
 								}
 							}
 						}
-						content.append(s+a+" "+ss+"\n");
+						if(a!= 0)
+							content.append(s+a+" "+mainMassage+"\n");
 					}
 				}
 			}
@@ -71,7 +70,7 @@ public class ConcentratorList {
 		}
 		for(TemperConcentrator tcobj:tclist){
 			String s = tcobj.getId()+" "+tcobj.getComNum()+" "+tcobj.getBpsNum()+" "+tcobj.getDataBit()+" "+tcobj.getCheckBit()+" "+tcobj.getStopBit()+" "+tcobj.getFluidControl()+" "+tcobj.getSlaveAddress()+" ";
-			String ss = "";
+			String mainMassage = "";
 			int a = 0;
 			for(Map.Entry<String, List<DataCell>> dmmap:map.entrySet()){
 				String mapKey = dmmap.getKey();
@@ -79,16 +78,20 @@ public class ConcentratorList {
 				for(DataCell dcobj:dclist){
 					if(tcobj.getDeviceType().equals(mapKey)){
 						a = dcobj.getRequestTimes();
-						ss += dcobj.getSegmentNum()+"/"+dcobj.getFunctionCode()+"/"+dcobj.getStartAddress()+"/"+dcobj.getRegisterCount()+" ";
+						mainMassage += dcobj.getSegmentNum()+"/"+dcobj.getFunctionCode()+"/"+dcobj.getStartAddress()+"/"+dcobj.getRegisterCount()+" ";
 					}
 				}
 			}
-			content.append(s+a+" "+ss+"\n");
+			if(a != 0){
+				//tem.out.println(s+a+" "+mainMassage+"\n");
+				content.append(s+a+" "+mainMassage+"\n");
+			}
+
 		}
 
 		WriteFile writefile = new WriteFile();
 		try {
-			writefile.WriteToFile(content.toString(), savePath);
+			writefile.WriteToFile(content.toString().trim(), savePath);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

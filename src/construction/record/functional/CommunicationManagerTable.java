@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import construction.record.equipments.CommunicationManager;
+import readXlsxFile.ReadBuildFile;
 
 public class CommunicationManagerTable {
-	private static int sheetNum = 1;
-	private static int beginNum = 3;
+	private static int beginNum = 9;
 	public List <CommunicationManager> getList(String arr[][][]){
-		String array[][] = arr[sheetNum];
+		String array[][] = arr[ReadBuildFile.tongguan];
 		List <CommunicationManager> list = new ArrayList<CommunicationManager>();
-		int id = searchTitle(array,"通信管理机编号");//通信管理机编号
+		int id = searchTitle(array,"通信管理机唯一ID");//通信管理机编号
 		int terminal = searchTitle(array,"C端/S端");//C端/S端
 		int pcId = searchTitle(array,"PC编号(如是C端)"); //测温传感器在测温集中器中地址
 		int scNum = searchTitle(array,"串行通道数量"); //测温传感器在测温集中器中地址

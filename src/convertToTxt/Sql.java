@@ -4,89 +4,75 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import readBuildTables.ReadBuildTables;
-import readReferTable.ReadReferTable;
+import construction.record.equipments.GeneralMap;
+import construction.record.functional.SensorsTable;
+import readXlsxFile.ReadBuildFile;
+import sensorTypeModel.DataItem;
+import sensorTypeModel.SensorType;
 import writeFile.WriteFile;
 
 public class Sql {
-	public static String trigger = "";
-	public void toTxt(String devPath,String savepath) {
-		trigger +="DROP TRIGGER IF EXISTS sensorDataUpdate;\n"
+	List<GeneralMap> gmlist;
+	private String savepath;
+	private ArrayList<SensorType> sensorTypes;
+	private StringBuffer insertConent = new StringBuffer();
+	private StringBuffer tableConent = new StringBuffer();
+	public Sql(String buildPath, ArrayList<SensorType> sensorTypes, String savepath) {
+		ReadBuildFile buildTables = new ReadBuildFile();
+		this.savepath = savepath;
+		this.sensorTypes = sensorTypes;
+		SensorsTable gm = new SensorsTable();
+		this.gmlist =gm.getList(buildTables.readTables(buildPath));
+
+	}
+
+	public void toTxt() {
+		String trigger ="DROP TRIGGER IF EXISTS sensorDataUpdate;\n"
 				+ "CREATE TRIGGER sensorDataUpdate AFTER INSERT ON sensordata FOR EACH ROW begin\n"
 				+ "	declare tmpType varchar(100);\n"
 				+ "	select sensorType into tmpType\n"
 				+ "		 from SENSORTYPE\n"
 				+ "	where SourceAddr=new.SourceAddr and GroupAddr=new.GroupAddr limit 1;\n"
 				+ "\n";
-
-		ReadBuildTables buildTables = new ReadBuildTables();
-		String [][][]buildTablesArray = buildTables.readTables(devPath);
-		StringBuffer content = new StringBuffer();
-		StringBuffer content2 = new StringBuffer();
-		List<String> list = new ArrayList<String>();
-		content2.append("delete from sensortype;\n");
-		for(int i=8;i<buildTablesArray[0].length;i++){
-			if( buildTablesArray[0][i][6]== null)continue;
-			String type = buildTablesArray[0][i][5];
-			content2.append("insert into SENSORTYPE(sourceAddr,groupAddr,sensorType) values("+Double.valueOf(buildTablesArray[0][i][7]).intValue()+",0,'"+type.replace("-", "_")+"');\n");
-			int j=0;
-			for(String s:list){
-				if(s.equals(type)){
-					j++;
+		for (SensorType sensorType:sensorTypes){
+			int itemNum = 0;
+				for(DataItem dataItem:sensorType.getSensorTypeList()){
+					if(dataItem.getDataMeans() == null)continue;
+						itemNum++;
 				}
-			}
-			if(j==0) list.add(type);
+			tableConent.append(createTable(sensorType.getSensorTypeName(),itemNum));
+			trigger+=createTrigger(sensorType.getSensorTypeName(),itemNum);
 		}
-		for(String a:list){
-			if(a == null) continue;
-			if(a.equals("TDHD-K")||a.equals("TDHD-G")){
-				content.append(createTable(a,33));
-			}
-			if(a.equals("PZ42L-E4-C")||a.equals("PZ42L-AI3")||a.equals("PD194Z-E")||a.equals("PD1134Z")){
-				content.append(createTable(a,44));
-			}
-			if(a.equals("BWD-3K130A")){
-				content.append(createTable(a,4));
-			}
-			if(a.equals("ACS510")||a.equals("ACS800")){
-				content.append(createTable(a,39));
-			}
-			else {
-				content.append(createTable(a,4));
-			}
-				
+
+		insertConent.append("delete from sensortype;");
+		for(GeneralMap gm:gmlist){
+			createInsertSql(gm.getId(), gm.getDevType());
 		}
 		trigger +="end;";
-		content.append(trigger);
+		tableConent.append(trigger);
 		WriteFile writefile = new WriteFile();
 		try {
-			writefile.WriteToFile(content.toString(), savepath+"/createadvancetable.sql");
+			writefile.WriteToFile(tableConent.toString().trim(), savepath+"/createadvancetable.sql");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
-			writefile.WriteToFile(content2.toString(), savepath+"/insertsensorinfo.sql");
+			writefile.WriteToFile(insertConent.toString().trim(), savepath+"/insertsensorinfo.sql");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	public static String createTable(String tableName,int itemNum){
-		tableName = tableName.replace("-", "_");
+	private void createInsertSql(int id,String devType){
+		insertConent.append("insert into SENSORTYPE(sourceAddr,groupAddr,sensorType) values("+id+",0,'"+devType.replace("-", "_").replaceAll("\\(\\d*\\)","")+"');\n");
+	}
+	private String createTable(String tableName,int itemNum){
+		tableName = tableName.replace("-", "_").replaceAll("\\(\\d*\\)","");
 		String item = "";
-		String item2 = "";
-		String item3 = "";
 		for(int i=1;i<=itemNum;i++){
-			item2 +=",Item"+i;
-			item3 += ",new.Item"+i;
 			item +="	item"+i+" double DEFAULT NULL,\n";
 		}
-		trigger+="	if strcmp(tmpType,'"+tableName+"')=0 then\n"
-				+ "		insert into "+tableName+" (SourceAddr,GroupAddr,SamplingTime"+item2+")\n"
-				+ "			values(new.SourceAddr,new.GroupAddr,new.SamplingTime"+item3+");\n"
-				+ "	end if;\n"
-				+ "\n";
 		String str = "DROP TABLE IF EXISTS "+tableName+";\n"
 				+ "CREATE TABLE "+tableName+"(\n"
 				+ "	sensorDataID bigint(20) NOT NULL AUTO_INCREMENT,\n"
@@ -97,5 +83,22 @@ public class Sql {
 				+" PRIMARY KEY (sensorDataID)\n"
 				+ ");\n";
 		return str;				  
+	}
+	private String createTrigger(String tableName,int itemNum){
+		tableName = tableName.replace("-", "_").replaceAll("\\(\\d*\\)","");
+		String str  = "";
+		String item2 = "";
+		String item3 = "";
+		for(int i=1;i<=itemNum;i++){
+			item2 +=",Item"+i;
+			item3 += ",new.Item"+i;
+		}
+		str="	if strcmp(tmpType,'"+tableName+"')=0 then\n"
+				+ "		insert into "+tableName+" (SourceAddr,GroupAddr,SamplingTime"+item2+")\n"
+				+ "			values(new.SourceAddr,new.GroupAddr,new.SamplingTime"+item3+");\n"
+				+ "	end if;\n"
+				+ "\n";
+
+		return str;
 	}
 }

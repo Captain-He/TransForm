@@ -6,7 +6,7 @@ import java.util.List;
 import construction.record.equipments.CollectPc;
 
 public class CollectPcTable {
-	private static int beginNum = 3;
+	private static int beginNum = 7;
 	
 	public List<CollectPc> getList(String array[][]){
 		List <CollectPc> list = new ArrayList<CollectPc>();

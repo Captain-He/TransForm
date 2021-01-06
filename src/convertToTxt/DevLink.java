@@ -25,23 +25,22 @@ public class DevLink {
   ]
 	*/
 
-	public void toTxt(String array[][][],String savePath) {
+	public void toTxt(String buildFile[][][],String saveTxtPath) {
 		PowerMeterTable pm = new PowerMeterTable();
-		List<PowerMeter> pmlist = pm.getList(array);
+		List<PowerMeter> powerMeterList = pm.getList(buildFile);
 		
 		TemperConcentratorTable tc = new TemperConcentratorTable();
-		List<TemperConcentrator> tclist =tc.getList(array);
+		List<TemperConcentrator> temperConcentratorList =tc.getList(buildFile);
 		
 		CommunicationManagerTable cm = new CommunicationManagerTable();
-		List <CommunicationManager> cmlist = cm.getList(array);
+		List <CommunicationManager> communicationManagerList = cm.getList(buildFile);
 
 		StringBuffer content = new StringBuffer();
 		int i = 1;
-		int len = pmlist.size()+tclist.size()+2;
+		int len = powerMeterList.size()+temperConcentratorList.size()+2;
 		String check[][] = new String[len][8];//处理重复行，最后一位标记
-		System.out.println(pmlist.size()+" "+tclist.size());
-		for(PowerMeter obj:pmlist){
-			for(CommunicationManager cmobj:cmlist){
+		for(PowerMeter obj:powerMeterList){
+			for(CommunicationManager cmobj:communicationManagerList){
 					if(obj.getUnderNum()==cmobj.getId()){
 						check[i][0] = i+"";
 						check[i][1] = obj.getId()+"";
@@ -54,11 +53,12 @@ public class DevLink {
 					}
 			}
 		}
-		for(TemperConcentrator obj:tclist){
-			for(CommunicationManager cmobj:cmlist){
+
+		for(TemperConcentrator obj:temperConcentratorList){
+			for(CommunicationManager cmobj:communicationManagerList){
 					if(obj.getUnderNum()==cmobj.getId()){
 						check[i][0] = i+"";
-						System.out.println(obj.getId()+" "+pmlist.size()+cmlist.size()+1);
+						//System.out.println(obj.getId()+" "+powerMeterList.size()+communicationManagerList.size()+1);
 						check[i][1] = obj.getId()+"";
 						check[i][2] = obj.getAccessType();
 						check[i][3] = obj.getModbusType();
@@ -94,7 +94,7 @@ public class DevLink {
 			}
 		WriteFile writefile = new WriteFile();
 		try {
-			writefile.WriteToFile(content.toString(), savePath);
+			writefile.WriteToFile(content.toString().trim(), saveTxtPath);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

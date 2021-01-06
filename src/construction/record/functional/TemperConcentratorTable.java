@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import construction.record.equipments.TemperConcentrator;
+import readXlsxFile.ReadBuildFile;
 
 public class TemperConcentratorTable {
-	private static int sheetNum = 3;
-	private static int beginNum = 3;
+	private static int beginNum = 8;
 	public List <TemperConcentrator> getList(String arr[][][]){
-		String array[][] = arr[sheetNum];
+		String array[][] = arr[ReadBuildFile.jizhongqi];
 		List <TemperConcentrator> wen;
-		int id = searchTitle(array,"设备唯一ID");//采集设备唯一ID
-		int deviceType = searchTitle(array,"设备型号");//设备型号
+		int id = searchTitle(array,"集中器唯一ID");//采集设备唯一ID
+		int deviceType = searchTitle(array,"集中器型号");//设备型号
 		int accessType = searchTitle(array,"接入方式"); //接入方式(以太网/串口)
 		int modbusType = searchTitle(array,"通信协议"); //通信协议(modbusTCP/modbusRTU)
 		int underNum = searchTitle(array,"隶属的通信管理机编号"); //隶属的通信管理机编号

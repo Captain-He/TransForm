@@ -35,7 +35,7 @@ public class DpuList {
 			}
 			WriteFile writefile = new WriteFile();
 			try {
-				writefile.WriteToFile(content.toString(), savePath);
+				writefile.WriteToFile(content.toString().trim(), savePath);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
